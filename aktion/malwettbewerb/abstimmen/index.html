@@ -40,57 +40,71 @@
     header .baeucke-cta { padding-left: 12px !important; padding-right: 12px !important; font-size: 0.8125rem !important; }
   }
 </style>
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>window.__resources = window.__resources || {};</script>
 <script src="../../../_ds_bundle.js"></script>
 </head>
 <body>
 <div id="root"></div>
 
-<script type="text/babel" src="lib.jsx"></script>
-<script type="text/babel" src="sections.jsx"></script>
-<script type="text/babel" src="Gallery.jsx"></script>
+<script src="lib.js"></script>
+<script src="sections.js"></script>
+<script src="Gallery.js"></script>
 
-<script type="text/babel">
-  function App() {
-    const { Header, Hero, Countdown, Steps, Gallery, Prizes, Reviews, StoreInfo, FAQ, Footer } = window;
-    window.__voting = window.useVoting();
-    return (
-      <>
-        <Header />
-        <main style={{ background: '#FFFFFF' }}>
-          <Hero />
-          <Countdown />
-          <Steps />
-          <Gallery />
-          <Prizes />
-          <Reviews />
-          <StoreInfo />
-          <FAQ />
-        </main>
-        <Footer />
-      </>
-    );
+<script defer>
+function App() {
+  const {
+    Header,
+    Hero,
+    Countdown,
+    Steps,
+    Gallery,
+    Prizes,
+    Reviews,
+    StoreInfo,
+    FAQ,
+    Footer
+  } = window;
+  window.__voting = window.useVoting();
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement("main", {
+    style: {
+      background: '#FFFFFF'
+    }
+  }, /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Countdown, null), /*#__PURE__*/React.createElement(Steps, null), /*#__PURE__*/React.createElement(Gallery, null), /*#__PURE__*/React.createElement(Prizes, null), /*#__PURE__*/React.createElement(Reviews, null), /*#__PURE__*/React.createElement(StoreInfo, null), /*#__PURE__*/React.createElement(FAQ, null)), /*#__PURE__*/React.createElement(Footer, null));
+}
+function mount() {
+  if (!window.Header || !window.Gallery || !window.useVoting || !window.Footer) {
+    setTimeout(mount, 40);
+    return;
   }
-  function mount() {
-    if (!window.Header || !window.Gallery || !window.useVoting || !window.Footer) { setTimeout(mount, 40); return; }
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    (function setupReveal(tries) {
-      const sections = document.querySelectorAll('main > section');
-      if (sections.length < 3 && tries < 60) { setTimeout(() => setupReveal(tries + 1), 50); return; }
-      if (reduce) return;
-      sections.forEach((s) => s.classList.add('reveal-init'));
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
-      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-      sections.forEach((s) => io.observe(s));
-      setTimeout(() => sections.forEach((s) => s.classList.add('is-visible')), 3000);
-    })(0);
-  }
-  mount();
+  ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(App, null));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  (function setupReveal(tries) {
+    const sections = document.querySelectorAll('main > section');
+    if (sections.length < 3 && tries < 60) {
+      setTimeout(() => setupReveal(tries + 1), 50);
+      return;
+    }
+    if (reduce) return;
+    sections.forEach(s => s.classList.add('reveal-init'));
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -8% 0px'
+    });
+    sections.forEach(s => io.observe(s));
+    setTimeout(() => sections.forEach(s => s.classList.add('is-visible')), 3000);
+  })(0);
+}
+mount();
 </script>
 </body>
 </html>

@@ -120,12 +120,20 @@ function speichereEinsendung(d) {
 
   // Bild in Drive ablegen
   var bildLink = '';
+  var bildFehler = '';
   if (d.bildBase64 && d.bildName) {
-    const ordner = DriveApp.getFolderById(DRIVE_ORDNER_ID);
-    const roh = Utilities.base64Decode(String(d.bildBase64).split(',').pop());
-    const datei = ordner.createFile(Utilities.newBlob(roh, d.bildTyp || 'image/jpeg', d.bildName));
-    datei.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    bildLink = datei.getUrl();
+    try {
+      if (!DRIVE_ORDNER_ID || DRIVE_ORDNER_ID.indexOf('HIER_DIE') === 0) {
+        throw new Error('DRIVE_ORDNER_ID ist noch nicht eingetragen');
+      }
+      const ordner = DriveApp.getFolderById(DRIVE_ORDNER_ID);
+      const roh = Utilities.base64Decode(String(d.bildBase64).split(',').pop());
+      const datei = ordner.createFile(Utilities.newBlob(roh, d.bildTyp || 'image/jpeg', d.bildName));
+      datei.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      bildLink = datei.getUrl();
+    } catch (f) {
+      bildFehler = String(f);   // Einsendung trotzdem speichern
+    }
   }
 
   const zeile = blatt.getLastRow() + 1;
@@ -144,10 +152,42 @@ function speichereEinsendung(d) {
   werte[spalteVon(kopf, ['einwilligung veröffentlichung', 'veröffentlichung'])] = d.einwilligungVeroeffentlichung ? 'Ja' : 'Nein';
   werte[spalteVon(kopf, ['stimmen'])]                              = 0;
   werte[spalteVon(kopf, ['freigabe'])]                             = 'Nein';   // erst nach Prüfung auf "Ja"
-  werte[spalteVon(kopf, ['status'])]                               = 'Neu';
+  werte[spalteVon(kopf, ['status'])]                               = bildFehler ? ('Bildfehler: ' + bildFehler) : 'Neu';
 
   schreibeZeile(blatt, zeile, kopf.length, werte);
-  return antwort({ ok: true, bildId: bildId });
+  return antwort({ ok: !bildFehler, fehler: bildFehler || undefined, bildId: bildId });
+}
+
+/* ====================================================================== *
+ * pruefeEinrichtung – im Editor ausführen, um die Einrichtung zu testen.
+ * Das Ergebnis steht danach im Ausführungsprotokoll.
+ * ====================================================================== */
+function pruefeEinrichtung() {
+  const zeilen = [];
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  zeilen.push('Tabelle: ' + ss.getName());
+  zeilen.push('Blätter: ' + ss.getSheets().map(function (b) { return b.getName(); }).join(', '));
+
+  const bEin = blattEinsendungen();
+  zeilen.push(bEin ? '✓ Blatt Einsendungen erkannt: "' + bEin.getName() + '"'
+                   : '✗ Blatt Einsendungen NICHT gefunden – nötig sind die Spalten "Vorname Kind" und "Bild-Link"');
+  if (bEin) zeilen.push('   Spalten: ' + kopfzeile(bEin).join(' | '));
+
+  const bAbs = blattAbstimmende();
+  zeilen.push(bAbs ? '✓ Blatt Abstimmende erkannt: "' + bAbs.getName() + '"'
+                   : '✗ Blatt Abstimmende NICHT gefunden – nötig sind die Spalten "Nachname" und "Möbelwunsch"');
+
+  try {
+    if (!DRIVE_ORDNER_ID || DRIVE_ORDNER_ID.indexOf('HIER_DIE') === 0) throw new Error('noch nicht eingetragen');
+    const o = DriveApp.getFolderById(DRIVE_ORDNER_ID);
+    zeilen.push('✓ Drive-Ordner erreichbar: "' + o.getName() + '"');
+  } catch (f) {
+    zeilen.push('✗ Drive-Ordner NICHT erreichbar: ' + f);
+  }
+
+  const text = zeilen.join('\n');
+  Logger.log(text);
+  return text;
 }
 
 /* --- Stimme ---------------------------------------------------------- */
