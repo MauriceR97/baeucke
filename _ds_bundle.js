@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"dadf48eeeaea","campaigns/abstimmung/lib.js":"a28388fbad4d","campaigns/abstimmung/sections.js":"1c54c6e4dd42","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"3f6b5d81c698","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"dadf48eeeaea","campaigns/abstimmung/lib.js":"a28388fbad4d","campaigns/abstimmung/sections.js":"5a71f416aaac","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"3f6b5d81c698","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -1415,14 +1415,29 @@ function Header() {
       gap: 12,
       flexWrap: 'wrap'
     }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "./",
+    onClick: e => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    },
+    "aria-label": "Zum Seitenanfang",
+    style: {
+      display: 'flex',
+      flex: 'none'
+    }
   }, /*#__PURE__*/React.createElement("img", {
     className: "hd-logo",
     src: "../../assets/logos/Logo-Baeucke-gelb.svg",
     alt: "Interliving B\xE4ucke",
     style: {
-      height: 44
+      height: 44,
+      display: 'block'
     }
-  }), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -2420,6 +2435,58 @@ function FAQ() {
     }
   }, f.a))))));
 }
+function AktionCTA() {
+  const {
+    Ico
+  } = window;
+  const {
+    Button
+  } = window.DesignSystem_9f5cef;
+  return /*#__PURE__*/React.createElement("section", {
+    style: {
+      background: 'var(--baeucke-yellow)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 'var(--container-max)',
+      margin: '0 auto',
+      padding: 'var(--space-12) var(--gutter)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 'var(--space-8)',
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 640
+    }
+  }, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      color: 'var(--neutral-800)',
+      margin: '0 0 10px'
+    }
+  }, "Noch nicht mitgemacht?"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--neutral-800)',
+      opacity: 0.85,
+      margin: 0,
+      fontSize: 'var(--text-lg)'
+    }
+  }, "Alle Infos zum Malwettbewerb, das Ausmalbild zum Herunterladen und das Formular zum Einsenden finden Sie auf der Aktionsseite.")), /*#__PURE__*/React.createElement("a", {
+    href: "../teilnahme/",
+    style: {
+      textDecoration: 'none'
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "ink",
+    size: "lg",
+    iconRight: /*#__PURE__*/React.createElement(Ico, {
+      name: "ArrowRight",
+      size: 18
+    })
+  }, "Zur Aktionsseite"))));
+}
 function Footer() {
   const {
     Ico
@@ -2547,6 +2614,7 @@ Object.assign(window, {
   Reviews,
   StoreInfo,
   FAQ,
+  AktionCTA,
   Footer
 });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "campaigns/abstimmung/sections.js", error: String((e && e.message) || e) }); }
