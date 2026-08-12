@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.jsx":"a4a3e6868889","campaigns/abstimmung/lib.jsx":"1d7947718bcd","campaigns/abstimmung/sections.jsx":"10f18cbb5766","campaigns/malwettbewerb/UploadForm.jsx":"46269b8241fe","campaigns/malwettbewerb/UploadForm.standalone.jsx":"d409265622b1","campaigns/malwettbewerb/lib.jsx":"ac6b05f57694","campaigns/malwettbewerb/sections.jsx":"e4730a5c2d3a","campaigns/malwettbewerb/sections.standalone.jsx":"0ee673a5199b","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.jsx":"57cc693f52b6","campaigns/abstimmung/lib.jsx":"6314dd73b9c5","campaigns/abstimmung/sections.jsx":"10f18cbb5766","campaigns/malwettbewerb/UploadForm.jsx":"ff4993e3c5e3","campaigns/malwettbewerb/UploadForm.standalone.jsx":"a864a6028522","campaigns/malwettbewerb/lib.jsx":"ac6b05f57694","campaigns/malwettbewerb/sections.jsx":"e4730a5c2d3a","campaigns/malwettbewerb/sections.standalone.jsx":"0ee673a5199b","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -21,10 +21,28 @@ const VOTE_ENDPOINT = '';
 /* Gemeinsamer Zustand: eigene Stimme + Rangliste */
 function useVoting() {
   const {
-    EINSENDUNGEN
+    EINSENDUNGEN,
+    ladeEinsendungen
   } = window;
+  const [eintraege, setEintraege] = React.useState(EINSENDUNGEN);
+  const [ladeStatus, setLadeStatus] = React.useState(window.DATEN_URL ? 'laedt' : 'demo');
   const [meineStimme, setMeineStimme] = React.useState(null);
   const [anfrageFuer, setAnfrageFuer] = React.useState(null);
+
+  // Einsendungen aus der Google-Tabelle nachladen (falls eingerichtet)
+  React.useEffect(() => {
+    let aktiv = true;
+    ladeEinsendungen().then(liste => {
+      if (!aktiv) return;
+      if (liste) {
+        setEintraege(liste);
+        setLadeStatus('live');
+      } else setLadeStatus(window.DATEN_URL ? 'fehler' : 'demo');
+    });
+    return () => {
+      aktiv = false;
+    };
+  }, []);
   React.useEffect(() => {
     try {
       const v = localStorage.getItem(VOTE_KEY);
@@ -48,7 +66,7 @@ function useVoting() {
     const id = anfrageFuer;
     if (!id) return;
     if (VOTE_ENDPOINT) {
-      const bild = EINSENDUNGEN.find(e => e.id === id) || {};
+      const bild = eintraege.find(e => e.id === id) || {};
       fetch(VOTE_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
@@ -56,6 +74,7 @@ function useVoting() {
           'Content-Type': 'text/plain;charset=utf-8'
         },
         body: JSON.stringify({
+          typ: 'stimme',
           ...daten,
           bildId: id,
           bildVorname: bild.vorname || ''
@@ -72,18 +91,19 @@ function useVoting() {
 
   // Stand aus der Tabelle + die eigene, noch nicht übertragene Stimme
   const rangliste = React.useMemo(() => {
-    return EINSENDUNGEN.map(e => ({
+    return eintraege.map(e => ({
       ...e,
       gesamt: (e.stimmen || 0) + (meineStimme === e.id ? 1 : 0)
-    })).sort((a, b) => b.gesamt - a.gesamt || a.vorname.localeCompare(b.vorname));
-  }, [meineStimme]);
+    })).sort((a, b) => b.gesamt - a.gesamt || String(a.vorname).localeCompare(String(b.vorname)));
+  }, [meineStimme, eintraege]);
   return {
     meineStimme,
     abstimmen,
     rangliste,
     anfrageFuer,
     abbrechen,
-    bestaetigen
+    bestaetigen,
+    ladeStatus
   };
 }
 
@@ -131,7 +151,7 @@ function ArtCard({
     }
   }, url ? /*#__PURE__*/React.createElement("img", {
     src: url,
-    alt: `Ausgemaltes Bild von ${e.vorname}, ${e.alter} Jahre`,
+    alt: `Ausgemaltes Bild von ${e.vorname}, $`,
     loading: "lazy",
     style: {
       width: '100%',
@@ -230,7 +250,7 @@ function ArtCard({
       color: 'var(--text-muted)',
       fontWeight: 600
     }
-  }, e.alter, " Jahre")), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: 'right',
       flex: 'none'
@@ -659,7 +679,7 @@ function Lightbox({
       return window.location.href;
     }
   }, [e.id]);
-  const text = `Schau dir das Bild von ${e.vorname} (${e.alter} Jahre) beim Bäucke-Malwettbewerb an und stimme ab:`;
+  const text = `Schau dir das Bild von ${e.vorname} ($) beim Bäucke-Malwettbewerb an und stimme ab:`;
   const waLink = `https://wa.me/?text=${encodeURIComponent(text + ' ' + link)}`;
   const kopieren = async () => {
     try {
@@ -760,7 +780,7 @@ function Lightbox({
       color: 'var(--text-muted)',
       fontWeight: 600
     }
-  }, e.alter, " Jahre \xB7 ", e.gesamt, " Stimmen")), meineStimme === e.id ? /*#__PURE__*/React.createElement("div", {
+  }, e.gesamt, " Stimmen")), meineStimme === e.id ? /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -849,7 +869,6 @@ function Lightbox({
 /* Alle Bilder – die drei Führenden stehen größer an erster Stelle */
 function Gallery() {
   const {
-    EINSENDUNGEN,
     Ico
   } = window;
   const {
@@ -858,7 +877,8 @@ function Gallery() {
     rangliste,
     anfrageFuer,
     abbrechen,
-    bestaetigen
+    bestaetigen,
+    ladeStatus
   } = window.__voting;
   const [lightbox, setLightbox] = React.useState(null);
   const top3 = rangliste.slice(0, 3);
@@ -907,12 +927,35 @@ function Gallery() {
     style: {
       margin: '10px 0 8px'
     }
-  }, "Alle ", EINSENDUNGEN.length, " Bilder"), /*#__PURE__*/React.createElement("p", {
+  }, "Alle ", rangliste.length, " Bilder"), ladeStatus === 'laedt' ? /*#__PURE__*/React.createElement("p", {
     style: {
       color: 'var(--text-muted)',
       margin: 0
     }
-  }, meineStimme ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), !meineStimme && /*#__PURE__*/React.createElement("p", {
+  }, "Die Einsendungen werden geladen \u2026") : /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--text-muted)',
+      margin: 0
+    }
+  }, meineStimme ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      marginTop: 'var(--space-3)',
+      marginBottom: 0,
+      background: 'var(--red-100)',
+      borderRadius: 'var(--radius-md)',
+      padding: '8px 16px',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 600,
+      color: 'var(--red-700)'
+    }
+  }, /*#__PURE__*/React.createElement(Ico, {
+    name: "TriangleAlert",
+    size: 16,
+    color: "var(--red-700)"
+  }), " Die Tabelle ist gerade nicht erreichbar \u2013 angezeigt wird der zuletzt hinterlegte Stand."), !meineStimme && /*#__PURE__*/React.createElement("p", {
     style: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -986,72 +1029,86 @@ Object.assign(window, {
 try { (() => {
 /* Abstimmungs-Landingpage — Einsendungen & Helfer
  *
- * ► HIER DIE EINSENDUNGEN EINTRAGEN
- *   Die Werte kommen 1:1 aus der Google-Tabelle "Malwettbewerb-Einsendungen":
- *     vorname  = Spalte "Vorname Kind"
- *     alter    = Spalte "Alter Kind"
- *     bildLink = Spalte "Bild-Link"  (Google-Drive-Link aus dem Upload-Formular)
- *     stimmen  = Spalte "Stimmen"    (aktueller Stand aus der Tabelle)
- *     id       = fortlaufend, wird für die Stimmenzählung gebraucht
+ * ==========================================================================
+ * A) EMPFOHLEN: Daten über das Apps Script laden (datenschutzfreundlich)
+ * ==========================================================================
+ * Die Google-Tabelle bleibt PRIVAT und wird NICHT im Web veröffentlicht.
+ * Stattdessen liefert das Apps Script nur die öffentlichen Felder aus:
+ * Bild-ID, Vorname des Kindes, Bild-Link und Stimmenstand.
+ * Namen der Eltern, E-Mail, Telefon und PLZ verlassen die Tabelle nie.
  *
- *   WICHTIG zum Bild-Link: Das Apps Script legt die Bilder in Drive ab und
- *   speichert einen Link der Form
- *       https://drive.google.com/file/d/DATEI_ID/view
- *   Solche Links lassen sich NICHT direkt als <img src> verwenden. Die Funktion
- *   bildUrl() unten wandelt sie automatisch in eine anzeigbare Adresse um
- *   (https://drive.google.com/thumbnail?id=DATEI_ID&sz=w1200).
- *   Voraussetzung: Die Datei muss in Drive für "Jeder mit dem Link" freigegeben
- *   sein – das erledigt das Apps Script beim Upload bereits automatisch.
+ *  1. google-apps-script.gs im Tabellen-Skript einfügen (enthält doGet + doPost)
+ *  2. Bereitstellen → Neue Bereitstellung → Web-App
+ *     (Ausführen als: Ich · Zugriff: Jeder)
+ *  3. Die /exec-Adresse unten bei DATEN_URL eintragen –
+ *     dieselbe Adresse wie VOTE_ENDPOINT in Gallery.jsx
  *
- *   Ein normaler Bild-Link (z. B. von einem eigenen Server) funktioniert
- *   ebenfalls und wird unverändert übernommen.
+ * Benötigte Spaltenüberschriften im Blatt "Einsendungen":
+ *     Bild-ID | Vorname Kind | Bild-Link | Stimmen
+ * Optional zusätzlich: Freigabe — dann werden nur Zeilen mit "Ja" ausgeliefert,
+ * so lassen sich Einsendungen vor der Veröffentlichung prüfen.
+ *
+ * Solange das Feld leer bleibt, zeigt die Seite die Beispiel-Einträge unten.
+ * ==========================================================================
+ */
+const DATEN_URL = '';
+
+/* ==========================================================================
+ * B) ALTERNATIVE: Einträge von Hand pflegen
+ * ==========================================================================
+ * Die Werte kommen 1:1 aus der Google-Tabelle "Malwettbewerb-Einsendungen":
+ *   vorname  = Spalte "Vorname Kind"
+ *   bildLink = Spalte "Bild-Link"  (Google-Drive-Link aus dem Upload-Formular)
+ *   stimmen  = Spalte "Stimmen"    (aktueller Stand aus der Tabelle)
+ *   id       = fortlaufend, wird für die Stimmenzählung gebraucht
+ *
+ * WICHTIG zum Bild-Link: Das Apps Script legt die Bilder in Drive ab und
+ * speichert einen Link der Form https://drive.google.com/file/d/DATEI_ID/view
+ * Solche Links lassen sich NICHT direkt als <img src> verwenden – bildUrl()
+ * wandelt sie automatisch in eine anzeigbare Adresse um. Voraussetzung: Die
+ * Datei ist in Drive für "Jeder mit dem Link" freigegeben; das erledigt das
+ * Apps Script beim Upload bereits.
+ *
+ * Ein normaler Bild-Link (z. B. vom eigenen Server) wird unverändert genutzt.
  */
 const EINSENDUNGEN = [{
   id: 'e01',
   vorname: 'Mia',
-  alter: 7,
   bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
   stimmen: 128
 }, {
   id: 'e02',
   vorname: 'Jonas',
-  alter: 10,
   bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 96
 }, {
   id: 'e03',
   vorname: 'Emilia',
-  alter: 5,
   bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
   stimmen: 152
 }, {
   id: 'e04',
   vorname: 'Ben',
-  alter: 9,
   bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 74
 }, {
   id: 'e05',
   vorname: 'Lina',
-  alter: 11,
   bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
   stimmen: 111
 }, {
   id: 'e06',
   vorname: 'Paul',
-  alter: 6,
   bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 43
 }, {
   id: 'e07',
   vorname: 'Sophie',
-  alter: 8,
   bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
   stimmen: 88
 }, {
   id: 'e08',
   vorname: 'Felix',
-  alter: 12,
   bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 61
 }];
@@ -1064,6 +1121,62 @@ function bildUrl(link) {
   || s.match(/[?&]id=([a-zA-Z0-9_-]+)/) // ...open?id=ID
   || s.match(/\/d\/([a-zA-Z0-9_-]+)/); // .../d/ID
   return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200` : s;
+}
+
+/* Lädt die Einsendungen über das Apps Script (nur öffentliche Felder).
+   Rückgabe: Array wie EINSENDUNGEN – oder null (leere URL / Fehler). */
+async function ladeEinsendungen() {
+  if (!DATEN_URL) return null;
+  try {
+    let daten;
+    try {
+      const antwort = await fetch(DATEN_URL, {
+        cache: 'no-store'
+      });
+      if (!antwort.ok) throw new Error('HTTP ' + antwort.status);
+      daten = await antwort.json();
+    } catch (netzfehler) {
+      daten = await ladePerJsonp(DATEN_URL); // Ausweichweg, falls fetch blockiert
+    }
+    if (!daten || !daten.ok || !Array.isArray(daten.bilder) || !daten.bilder.length) return null;
+    return daten.bilder.map((b, i) => ({
+      id: String(b.id || 'e' + String(i + 1).padStart(2, '0')),
+      vorname: String(b.vorname || '').trim(),
+      bildLink: String(b.bildLink || '').trim(),
+      stimmen: parseInt(String(b.stimmen || '').replace(/\D/g, ''), 10) || 0
+    })).filter(b => b.bildLink);
+  } catch (fehler) {
+    console.warn('Einsendungen konnten nicht geladen werden:', fehler);
+    return null;
+  }
+}
+
+/* Ausweichweg ohne fetch (umgeht CORS-Einschränkungen älterer Browser). */
+function ladePerJsonp(url) {
+  return new Promise((fertig, fehlschlag) => {
+    const name = '__baeucke_cb_' + Date.now();
+    const skript = document.createElement('script');
+    const aufraeumen = () => {
+      delete window[name];
+      skript.remove();
+    };
+    const timer = setTimeout(() => {
+      aufraeumen();
+      fehlschlag(new Error('Zeitüberschreitung'));
+    }, 12000);
+    window[name] = daten => {
+      clearTimeout(timer);
+      aufraeumen();
+      fertig(daten);
+    };
+    skript.onerror = () => {
+      clearTimeout(timer);
+      aufraeumen();
+      fehlschlag(new Error('Laden fehlgeschlagen'));
+    };
+    skript.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + name;
+    document.body.appendChild(skript);
+  });
 }
 
 // Lucide-Icon-Helfer
@@ -1179,7 +1292,7 @@ const VOTE_FAQS = [{
   a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.'
 }, {
   q: 'Warum wird nur der Vorname angezeigt?',
-  a: 'Zum Schutz der Kinder veröffentlichen wir ausschließlich Vorname und Alter – und nur, wenn die Erziehungsberechtigten der Veröffentlichung zugestimmt haben.'
+  a: 'Zum Schutz der Kinder veröffentlichen wir ausschließlich den Vornamen – und nur, wenn die Erziehungsberechtigten der Veröffentlichung zugestimmt haben.'
 }];
 const REVIEWS = [{
   text: 'Das beste Möbelhaus im Umkreis. Sehr freundliche Mitarbeiter – hier ist der Kunde noch König. Nur zu empfehlen!',
@@ -1229,6 +1342,8 @@ function GoogleG({
 }
 Object.assign(window, {
   EINSENDUNGEN,
+  ladeEinsendungen,
+  DATEN_URL,
   bildUrl,
   Ico,
   KID,
@@ -2546,7 +2661,6 @@ function UploadForm() {
   } = window.DesignSystem_9f5cef;
   const [v, setV] = React.useState({
     child: '',
-    age: '',
     parent: '',
     email: '',
     phone: ''
@@ -2587,7 +2701,6 @@ function UploadForm() {
   const validate = () => {
     const e = {};
     if (!v.child.trim()) e.child = 'Bitte geben Sie den Vornamen des Kindes an.';
-    if (!v.age) e.age = 'Bitte wählen Sie das Alter.';
     if (!v.parent.trim()) e.parent = 'Bitte geben Sie Ihren Namen an.';
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)) e.email = 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
     if (!v.phone.trim()) e.phone = 'Bitte geben Sie eine Telefonnummer an.';
@@ -2621,8 +2734,8 @@ function UploadForm() {
           'Content-Type': 'text/plain;charset=utf-8'
         },
         body: JSON.stringify({
+          typ: 'einsendung',
           kindVorname: v.child,
-          kindAlter: v.age,
           elternName: v.parent,
           email: v.email,
           telefon: v.phone,
@@ -2637,9 +2750,6 @@ function UploadForm() {
     reader.onerror = done;
     reader.readAsDataURL(file);
   };
-  const ageOptions = Array.from({
-    length: 12
-  }, (_, i) => i + 1);
   const checkboxRow = (checked, setChecked, err, children) => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     style: {
       display: 'flex',
@@ -2798,7 +2908,6 @@ function UploadForm() {
       setSent(false);
       setV({
         child: '',
-        age: '',
         parent: '',
         email: '',
         phone: ''
@@ -2822,74 +2931,13 @@ function UploadForm() {
       flexDirection: 'column',
       gap: 'var(--space-5)'
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '2fr 1fr',
-      gap: 'var(--space-4)'
-    },
-    className: "f-row"
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Vorname des Kindes",
     placeholder: "z. B. Mia",
     value: v.child,
     onChange: set('child'),
     error: errors.child
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'var(--font-sans)'
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    style: {
-      display: 'block',
-      fontSize: 'var(--text-sm)',
-      fontWeight: 700,
-      color: 'var(--text-strong)',
-      marginBottom: 6
-    }
-  }, "Alter"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      background: 'var(--surface-card)',
-      border: `1.5px solid ${errors.age ? 'var(--red-500)' : 'var(--border-default)'}`,
-      borderRadius: 'var(--radius-md)',
-      padding: '0 8px 0 14px',
-      minHeight: 46
-    }
-  }, /*#__PURE__*/React.createElement("select", {
-    value: v.age,
-    onChange: set('age'),
-    style: {
-      flex: 1,
-      border: 'none',
-      outline: 'none',
-      background: 'transparent',
-      fontFamily: 'var(--font-sans)',
-      fontWeight: 500,
-      fontSize: 'var(--text-md)',
-      color: v.age ? 'var(--text-body)' : 'var(--text-faint)',
-      padding: '12px 0',
-      cursor: 'pointer',
-      appearance: 'none'
-    }
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "Jahre"), ageOptions.map(a => /*#__PURE__*/React.createElement("option", {
-    key: a,
-    value: a
-  }, a, " Jahre"))), /*#__PURE__*/React.createElement(Ico, {
-    name: "ChevronDown",
-    size: 18,
-    color: "var(--text-muted)"
-  })), errors.age && /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: '6px 0 0',
-      fontSize: 'var(--text-xs)',
-      color: 'var(--red-500)',
-      fontWeight: 600
-    }
-  }, errors.age))), /*#__PURE__*/React.createElement(Input, {
+  }), /*#__PURE__*/React.createElement(Input, {
     label: "Ihr Name (Erziehungsberechtigte:r)",
     placeholder: "Vor- und Nachname",
     value: v.parent,
@@ -3154,7 +3202,6 @@ function UploadForm() {
   } = window.DesignSystem_9f5cef;
   const [v, setV] = React.useState({
     child: '',
-    age: '',
     parent: '',
     email: '',
     phone: ''
@@ -3195,7 +3242,6 @@ function UploadForm() {
   const validate = () => {
     const e = {};
     if (!v.child.trim()) e.child = 'Bitte geben Sie den Vornamen des Kindes an.';
-    if (!v.age) e.age = 'Bitte wählen Sie das Alter.';
     if (!v.parent.trim()) e.parent = 'Bitte geben Sie Ihren Namen an.';
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email)) e.email = 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
     if (!v.phone.trim()) e.phone = 'Bitte geben Sie eine Telefonnummer an.';
@@ -3229,8 +3275,8 @@ function UploadForm() {
           'Content-Type': 'text/plain;charset=utf-8'
         },
         body: JSON.stringify({
+          typ: 'einsendung',
           kindVorname: v.child,
-          kindAlter: v.age,
           elternName: v.parent,
           email: v.email,
           telefon: v.phone,
@@ -3245,9 +3291,6 @@ function UploadForm() {
     reader.onerror = done;
     reader.readAsDataURL(file);
   };
-  const ageOptions = Array.from({
-    length: 12
-  }, (_, i) => i + 1);
   const checkboxRow = (checked, setChecked, err, children) => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     style: {
       display: 'flex',
@@ -3406,7 +3449,6 @@ function UploadForm() {
       setSent(false);
       setV({
         child: '',
-        age: '',
         parent: '',
         email: '',
         phone: ''
@@ -3430,74 +3472,13 @@ function UploadForm() {
       flexDirection: 'column',
       gap: 'var(--space-5)'
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: '2fr 1fr',
-      gap: 'var(--space-4)'
-    },
-    className: "f-row"
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Vorname des Kindes",
     placeholder: "z. B. Mia",
     value: v.child,
     onChange: set('child'),
     error: errors.child
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: 'var(--font-sans)'
-    }
-  }, /*#__PURE__*/React.createElement("label", {
-    style: {
-      display: 'block',
-      fontSize: 'var(--text-sm)',
-      fontWeight: 700,
-      color: 'var(--text-strong)',
-      marginBottom: 6
-    }
-  }, "Alter"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      background: 'var(--surface-card)',
-      border: `1.5px solid ${errors.age ? 'var(--red-500)' : 'var(--border-default)'}`,
-      borderRadius: 'var(--radius-md)',
-      padding: '0 8px 0 14px',
-      minHeight: 46
-    }
-  }, /*#__PURE__*/React.createElement("select", {
-    value: v.age,
-    onChange: set('age'),
-    style: {
-      flex: 1,
-      border: 'none',
-      outline: 'none',
-      background: 'transparent',
-      fontFamily: 'var(--font-sans)',
-      fontWeight: 500,
-      fontSize: 'var(--text-md)',
-      color: v.age ? 'var(--text-body)' : 'var(--text-faint)',
-      padding: '12px 0',
-      cursor: 'pointer',
-      appearance: 'none'
-    }
-  }, /*#__PURE__*/React.createElement("option", {
-    value: ""
-  }, "Jahre"), ageOptions.map(a => /*#__PURE__*/React.createElement("option", {
-    key: a,
-    value: a
-  }, a, " Jahre"))), /*#__PURE__*/React.createElement(Ico, {
-    name: "ChevronDown",
-    size: 18,
-    color: "var(--text-muted)"
-  })), errors.age && /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: '6px 0 0',
-      fontSize: 'var(--text-xs)',
-      color: 'var(--red-500)',
-      fontWeight: 600
-    }
-  }, errors.age))), /*#__PURE__*/React.createElement(Input, {
+  }), /*#__PURE__*/React.createElement(Input, {
     label: "Ihr Name (Erziehungsberechtigte:r)",
     placeholder: "Vor- und Nachname",
     value: v.parent,

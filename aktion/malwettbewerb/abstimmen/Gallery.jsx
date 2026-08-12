@@ -8,9 +8,22 @@ const VOTE_ENDPOINT = '';
 
 /* Gemeinsamer Zustand: eigene Stimme + Rangliste */
 function useVoting() {
-  const { EINSENDUNGEN } = window;
+  const { EINSENDUNGEN, ladeEinsendungen } = window;
+  const [eintraege, setEintraege] = React.useState(EINSENDUNGEN);
+  const [ladeStatus, setLadeStatus] = React.useState(window.DATEN_URL ? 'laedt' : 'demo');
   const [meineStimme, setMeineStimme] = React.useState(null);
   const [anfrageFuer, setAnfrageFuer] = React.useState(null);
+
+  // Einsendungen aus der Google-Tabelle nachladen (falls eingerichtet)
+  React.useEffect(() => {
+    let aktiv = true;
+    ladeEinsendungen().then((liste) => {
+      if (!aktiv) return;
+      if (liste) { setEintraege(liste); setLadeStatus('live'); }
+      else setLadeStatus(window.DATEN_URL ? 'fehler' : 'demo');
+    });
+    return () => { aktiv = false; };
+  }, []);
 
   React.useEffect(() => {
     try { const v = localStorage.getItem(VOTE_KEY); if (v) setMeineStimme(v); } catch (e) {}
@@ -27,12 +40,12 @@ function useVoting() {
     const id = anfrageFuer;
     if (!id) return;
     if (VOTE_ENDPOINT) {
-      const bild = EINSENDUNGEN.find((e) => e.id === id) || {};
+      const bild = eintraege.find((e) => e.id === id) || {};
       fetch(VOTE_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ ...daten, bildId: id, bildVorname: bild.vorname || '' }),
+        body: JSON.stringify({ typ: 'stimme', ...daten, bildId: id, bildVorname: bild.vorname || '' }),
       }).catch(function () {});
     }
     try { localStorage.setItem(VOTE_KEY, id); } catch (e) {}
@@ -43,12 +56,12 @@ function useVoting() {
 
   // Stand aus der Tabelle + die eigene, noch nicht übertragene Stimme
   const rangliste = React.useMemo(() => {
-    return EINSENDUNGEN
+    return eintraege
       .map((e) => ({ ...e, gesamt: (e.stimmen || 0) + (meineStimme === e.id ? 1 : 0) }))
-      .sort((a, b) => b.gesamt - a.gesamt || a.vorname.localeCompare(b.vorname));
-  }, [meineStimme]);
+      .sort((a, b) => b.gesamt - a.gesamt || String(a.vorname).localeCompare(String(b.vorname)));
+  }, [meineStimme, eintraege]);
 
-  return { meineStimme, abstimmen, rangliste, anfrageFuer, abbrechen, bestaetigen };
+  return { meineStimme, abstimmen, rangliste, anfrageFuer, abbrechen, bestaetigen, ladeStatus };
 }
 
 /* Einzelne Bildkarte */
@@ -67,7 +80,7 @@ function ArtCard({ e, platz, meineStimme, abstimmen, onZoom, gross }) {
         style={{ position: 'relative', aspectRatio: '4 / 3', border: 'none', padding: 0, background: '#EDEAE3', cursor: url ? 'zoom-in' : 'default', overflow: 'hidden' }}
       >
         {url ? (
-          <img src={url} alt={`Ausgemaltes Bild von ${e.vorname}, ${e.alter} Jahre`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <img src={url} alt={`Ausgemaltes Bild von ${e.vorname}, $`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         ) : (
           <span style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, color: 'var(--neutral-400)' }}>
             <Ico name="ImageOff" size={30} strokeWidth={1.5} />
@@ -90,7 +103,7 @@ function ArtCard({ e, platz, meineStimme, abstimmen, onZoom, gross }) {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
           <div>
             <div style={{ fontWeight: 800, fontSize: gross ? 'var(--text-xl)' : 'var(--text-lg)', color: 'var(--text-strong)', lineHeight: 1.2 }}>{e.vorname}</div>
-            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', fontWeight: 600 }}>{e.alter} Jahre</div>
+            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', fontWeight: 600 }}></div>
           </div>
           <div style={{ textAlign: 'right', flex: 'none' }}>
             <div style={{ fontWeight: 900, fontSize: gross ? 'var(--text-h3)' : 'var(--text-xl)', color: 'var(--text-strong)', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{e.gesamt}</div>
@@ -222,7 +235,7 @@ function Lightbox({ e, onClose, meineStimme, abstimmen }) {
     catch (err) { return window.location.href; }
   }, [e.id]);
 
-  const text = `Schau dir das Bild von ${e.vorname} (${e.alter} Jahre) beim Bäucke-Malwettbewerb an und stimme ab:`;
+  const text = `Schau dir das Bild von ${e.vorname} ($) beim Bäucke-Malwettbewerb an und stimme ab:`;
   const waLink = `https://wa.me/?text=${encodeURIComponent(text + ' ' + link)}`;
 
   const kopieren = async () => {
@@ -252,7 +265,7 @@ function Lightbox({ e, onClose, meineStimme, abstimmen }) {
         <div style={{ padding: 'var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
           <div>
             <div style={{ fontWeight: 800, fontSize: 'var(--text-h3)', color: 'var(--text-strong)', lineHeight: 1.15 }}>{e.vorname}</div>
-            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', fontWeight: 600 }}>{e.alter} Jahre · {e.gesamt} Stimmen</div>
+            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', fontWeight: 600 }}>{e.gesamt} Stimmen</div>
           </div>
 
           {meineStimme === e.id ? (
@@ -288,8 +301,8 @@ function Lightbox({ e, onClose, meineStimme, abstimmen }) {
 
 /* Alle Bilder – die drei Führenden stehen größer an erster Stelle */
 function Gallery() {
-  const { EINSENDUNGEN, Ico } = window;
-  const { meineStimme, abstimmen, rangliste, anfrageFuer, abbrechen, bestaetigen } = window.__voting;
+  const { Ico } = window;
+  const { meineStimme, abstimmen, rangliste, anfrageFuer, abbrechen, bestaetigen, ladeStatus } = window.__voting;
   const [lightbox, setLightbox] = React.useState(null);
   const top3 = rangliste.slice(0, 3);
   const rest = rangliste.slice(3);
@@ -315,12 +328,21 @@ function Gallery() {
       <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: 'var(--section-y) var(--gutter)' }}>
         <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
           <span className="eyebrow">Die Kunstwerke</span>
-          <h2 style={{ margin: '10px 0 8px' }}>Alle {EINSENDUNGEN.length} Bilder</h2>
-          <p style={{ color: 'var(--text-muted)', margin: 0 }}>
-            {meineStimme
-              ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.'
-              : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'}
-          </p>
+          <h2 style={{ margin: '10px 0 8px' }}>Alle {rangliste.length} Bilder</h2>
+          {ladeStatus === 'laedt' ? (
+            <p style={{ color: 'var(--text-muted)', margin: 0 }}>Die Einsendungen werden geladen …</p>
+          ) : (
+            <p style={{ color: 'var(--text-muted)', margin: 0 }}>
+              {meineStimme
+                ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.'
+                : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'}
+            </p>
+          )}
+          {ladeStatus === 'fehler' && (
+            <p style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 'var(--space-3)', marginBottom: 0, background: 'var(--red-100)', borderRadius: 'var(--radius-md)', padding: '8px 16px', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--red-700)' }}>
+              <Ico name="TriangleAlert" size={16} color="var(--red-700)" /> Die Tabelle ist gerade nicht erreichbar – angezeigt wird der zuletzt hinterlegte Stand.
+            </p>
+          )}
           {!meineStimme && (
             <p style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 'var(--space-4)', marginBottom: 0, background: 'var(--yellow-50)', border: '1px solid var(--yellow-200)', borderRadius: 'var(--radius-pill)', padding: '8px 18px', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--text-strong)' }}>
               <Ico name="Gift" size={16} color="var(--neutral-800)" /> Unter allen Abstimmenden verlosen wir einen 100-€-Gutschein

@@ -1,34 +1,56 @@
 /* Abstimmungs-Landingpage — Einsendungen & Helfer
  *
- * ► HIER DIE EINSENDUNGEN EINTRAGEN
- *   Die Werte kommen 1:1 aus der Google-Tabelle "Malwettbewerb-Einsendungen":
- *     vorname  = Spalte "Vorname Kind"
- *     alter    = Spalte "Alter Kind"
- *     bildLink = Spalte "Bild-Link"  (Google-Drive-Link aus dem Upload-Formular)
- *     stimmen  = Spalte "Stimmen"    (aktueller Stand aus der Tabelle)
- *     id       = fortlaufend, wird für die Stimmenzählung gebraucht
+ * ==========================================================================
+ * A) EMPFOHLEN: Daten über das Apps Script laden (datenschutzfreundlich)
+ * ==========================================================================
+ * Die Google-Tabelle bleibt PRIVAT und wird NICHT im Web veröffentlicht.
+ * Stattdessen liefert das Apps Script nur die öffentlichen Felder aus:
+ * Bild-ID, Vorname des Kindes, Bild-Link und Stimmenstand.
+ * Namen der Eltern, E-Mail, Telefon und PLZ verlassen die Tabelle nie.
  *
- *   WICHTIG zum Bild-Link: Das Apps Script legt die Bilder in Drive ab und
- *   speichert einen Link der Form
- *       https://drive.google.com/file/d/DATEI_ID/view
- *   Solche Links lassen sich NICHT direkt als <img src> verwenden. Die Funktion
- *   bildUrl() unten wandelt sie automatisch in eine anzeigbare Adresse um
- *   (https://drive.google.com/thumbnail?id=DATEI_ID&sz=w1200).
- *   Voraussetzung: Die Datei muss in Drive für "Jeder mit dem Link" freigegeben
- *   sein – das erledigt das Apps Script beim Upload bereits automatisch.
+ *  1. google-apps-script.gs im Tabellen-Skript einfügen (enthält doGet + doPost)
+ *  2. Bereitstellen → Neue Bereitstellung → Web-App
+ *     (Ausführen als: Ich · Zugriff: Jeder)
+ *  3. Die /exec-Adresse unten bei DATEN_URL eintragen –
+ *     dieselbe Adresse wie VOTE_ENDPOINT in Gallery.jsx
  *
- *   Ein normaler Bild-Link (z. B. von einem eigenen Server) funktioniert
- *   ebenfalls und wird unverändert übernommen.
+ * Benötigte Spaltenüberschriften im Blatt "Einsendungen":
+ *     Bild-ID | Vorname Kind | Bild-Link | Stimmen
+ * Optional zusätzlich: Freigabe — dann werden nur Zeilen mit "Ja" ausgeliefert,
+ * so lassen sich Einsendungen vor der Veröffentlichung prüfen.
+ *
+ * Solange das Feld leer bleibt, zeigt die Seite die Beispiel-Einträge unten.
+ * ==========================================================================
+ */
+const DATEN_URL = '';
+
+/* ==========================================================================
+ * B) ALTERNATIVE: Einträge von Hand pflegen
+ * ==========================================================================
+ * Die Werte kommen 1:1 aus der Google-Tabelle "Malwettbewerb-Einsendungen":
+ *   vorname  = Spalte "Vorname Kind"
+ *   bildLink = Spalte "Bild-Link"  (Google-Drive-Link aus dem Upload-Formular)
+ *   stimmen  = Spalte "Stimmen"    (aktueller Stand aus der Tabelle)
+ *   id       = fortlaufend, wird für die Stimmenzählung gebraucht
+ *
+ * WICHTIG zum Bild-Link: Das Apps Script legt die Bilder in Drive ab und
+ * speichert einen Link der Form https://drive.google.com/file/d/DATEI_ID/view
+ * Solche Links lassen sich NICHT direkt als <img src> verwenden – bildUrl()
+ * wandelt sie automatisch in eine anzeigbare Adresse um. Voraussetzung: Die
+ * Datei ist in Drive für "Jeder mit dem Link" freigegeben; das erledigt das
+ * Apps Script beim Upload bereits.
+ *
+ * Ein normaler Bild-Link (z. B. vom eigenen Server) wird unverändert genutzt.
  */
 const EINSENDUNGEN = [
-  { id: 'e01', vorname: 'Mia',    alter: 7,  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 128 },
-  { id: 'e02', vorname: 'Jonas',  alter: 10, bildLink: 'assets/schritte-abstimmung.png', stimmen: 96 },
-  { id: 'e03', vorname: 'Emilia', alter: 5,  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 152 },
-  { id: 'e04', vorname: 'Ben',    alter: 9,  bildLink: 'assets/schritte-abstimmung.png', stimmen: 74 },
-  { id: 'e05', vorname: 'Lina',   alter: 11, bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 111 },
-  { id: 'e06', vorname: 'Paul',   alter: 6,  bildLink: 'assets/schritte-abstimmung.png', stimmen: 43 },
-  { id: 'e07', vorname: 'Sophie', alter: 8,  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 88 },
-  { id: 'e08', vorname: 'Felix',  alter: 12, bildLink: 'assets/schritte-abstimmung.png', stimmen: 61 },
+  { id: 'e01', vorname: 'Mia',    bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 128 },
+  { id: 'e02', vorname: 'Jonas',  bildLink: 'assets/schritte-abstimmung.png', stimmen: 96 },
+  { id: 'e03', vorname: 'Emilia',  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 152 },
+  { id: 'e04', vorname: 'Ben',    bildLink: 'assets/schritte-abstimmung.png', stimmen: 74 },
+  { id: 'e05', vorname: 'Lina',   bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 111 },
+  { id: 'e06', vorname: 'Paul',   bildLink: 'assets/schritte-abstimmung.png', stimmen: 43 },
+  { id: 'e07', vorname: 'Sophie',  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png', stimmen: 88 },
+  { id: 'e08', vorname: 'Felix',  bildLink: 'assets/schritte-abstimmung.png', stimmen: 61 },
 ];
 
 /* Wandelt einen Google-Drive-Link in eine direkt anzeigbare Bildadresse um. */
@@ -39,6 +61,46 @@ function bildUrl(link) {
         || s.match(/[?&]id=([a-zA-Z0-9_-]+)/)            // ...open?id=ID
         || s.match(/\/d\/([a-zA-Z0-9_-]+)/);             // .../d/ID
   return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200` : s;
+}
+
+/* Lädt die Einsendungen über das Apps Script (nur öffentliche Felder).
+   Rückgabe: Array wie EINSENDUNGEN – oder null (leere URL / Fehler). */
+async function ladeEinsendungen() {
+  if (!DATEN_URL) return null;
+  try {
+    let daten;
+    try {
+      const antwort = await fetch(DATEN_URL, { cache: 'no-store' });
+      if (!antwort.ok) throw new Error('HTTP ' + antwort.status);
+      daten = await antwort.json();
+    } catch (netzfehler) {
+      daten = await ladePerJsonp(DATEN_URL);   // Ausweichweg, falls fetch blockiert
+    }
+    if (!daten || !daten.ok || !Array.isArray(daten.bilder) || !daten.bilder.length) return null;
+    return daten.bilder.map((b, i) => ({
+      id: String(b.id || 'e' + String(i + 1).padStart(2, '0')),
+      vorname: String(b.vorname || '').trim(),
+      bildLink: String(b.bildLink || '').trim(),
+      stimmen: parseInt(String(b.stimmen || '').replace(/\D/g, ''), 10) || 0,
+    })).filter((b) => b.bildLink);
+  } catch (fehler) {
+    console.warn('Einsendungen konnten nicht geladen werden:', fehler);
+    return null;
+  }
+}
+
+/* Ausweichweg ohne fetch (umgeht CORS-Einschränkungen älterer Browser). */
+function ladePerJsonp(url) {
+  return new Promise((fertig, fehlschlag) => {
+    const name = '__baeucke_cb_' + Date.now();
+    const skript = document.createElement('script');
+    const aufraeumen = () => { delete window[name]; skript.remove(); };
+    const timer = setTimeout(() => { aufraeumen(); fehlschlag(new Error('Zeitüberschreitung')); }, 12000);
+    window[name] = (daten) => { clearTimeout(timer); aufraeumen(); fertig(daten); };
+    skript.onerror = () => { clearTimeout(timer); aufraeumen(); fehlschlag(new Error('Laden fehlgeschlagen')); };
+    skript.src = url + (url.includes('?') ? '&' : '?') + 'callback=' + name;
+    document.body.appendChild(skript);
+  });
 }
 
 // Lucide-Icon-Helfer
@@ -89,7 +151,7 @@ const VOTE_FAQS = [
   { q: 'Bis wann kann abgestimmt werden?', a: 'Die Abstimmung läuft bis zum 31.10.2026. Danach werden die Stimmen ausgezählt.' },
   { q: 'Wie werden die Gewinner:innen ermittelt?', a: 'Die drei Bilder mit den meisten Stimmen zum Ende der Abstimmung gewinnen. Die Familien werden über die beim Upload angegebenen Kontaktdaten benachrichtigt.' },
   { q: 'Was gibt es zu gewinnen?', a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.' },
-  { q: 'Warum wird nur der Vorname angezeigt?', a: 'Zum Schutz der Kinder veröffentlichen wir ausschließlich Vorname und Alter – und nur, wenn die Erziehungsberechtigten der Veröffentlichung zugestimmt haben.' },
+  { q: 'Warum wird nur der Vorname angezeigt?', a: 'Zum Schutz der Kinder veröffentlichen wir ausschließlich den Vornamen – und nur, wenn die Erziehungsberechtigten der Veröffentlichung zugestimmt haben.' },
 ];
 
 const REVIEWS = [
@@ -131,4 +193,4 @@ function GoogleG({ size = 22 }) {
   );
 }
 
-Object.assign(window, { EINSENDUNGEN, bildUrl, Ico, KID, Splat, PRIZES, VOTE_STEPS, VOTE_FAQS, REVIEWS, SEAL_URL, GOOGLE, GoogleG, MOEBEL_WUNSCH });
+Object.assign(window, { EINSENDUNGEN, ladeEinsendungen, DATEN_URL, bildUrl, Ico, KID, Splat, PRIZES, VOTE_STEPS, VOTE_FAQS, REVIEWS, SEAL_URL, GOOGLE, GoogleG, MOEBEL_WUNSCH });
