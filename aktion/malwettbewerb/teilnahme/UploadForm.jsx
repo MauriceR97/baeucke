@@ -2,7 +2,7 @@
 
 // Google-Sheets-Anbindung: Web-App-URL aus Apps Script hier eintragen (siehe
 // Google-Sheets-Anleitung.md). Leer = Prototyp-Modus ohne Speichern.
-const SHEET_ENDPOINT = '';
+const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzbBBQDIVeypku4N6a7r5-4YtCEJthtA4EQeJAtkD10mi0PlZxQrhVaLy8uEMEDh7STRw/exec';
 
 // Bilder werden vor dem Upload im Browser verkleinert: Handyfotos sind oft
 // 5–12 MB und würden Apps Script sprengen. 2000 px lange Kante reicht für

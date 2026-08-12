@@ -4,7 +4,7 @@ const VOTE_KEY = 'baeucke-malwettbewerb-stimme';
 
 // Google-Sheets-Anbindung: Web-App-URL aus Apps Script hier eintragen
 // (siehe Google-Sheets-Anleitung.md). Leer = Prototyp ohne Speichern.
-const VOTE_ENDPOINT = '';
+const VOTE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzbBBQDIVeypku4N6a7r5-4YtCEJthtA4EQeJAtkD10mi0PlZxQrhVaLy8uEMEDh7STRw/exec';
 
 /* Gemeinsamer Zustand: eigene Stimme + Rangliste */
 function useVoting() {

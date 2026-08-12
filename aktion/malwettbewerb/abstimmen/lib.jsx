@@ -22,7 +22,7 @@
  * Solange das Feld leer bleibt, zeigt die Seite die Beispiel-Einträge unten.
  * ==========================================================================
  */
-const DATEN_URL = '';
+const DATEN_URL = 'https://script.google.com/macros/s/AKfycbzbBBQDIVeypku4N6a7r5-4YtCEJthtA4EQeJAtkD10mi0PlZxQrhVaLy8uEMEDh7STRw/exec';
 
 /* ==========================================================================
  * B) ALTERNATIVE: Einträge von Hand pflegen
