@@ -1,0 +1,8 @@
+/* ============================================================
+   Interliving Bäucke — Webfonts
+   Brand typeface: RUDA (Überschriften = Ruda Bold,
+   Bodytexte = Ruda Medium). Ruda is a free Google Font, so this
+   is the REAL brand face — not a substitution.
+   Served from Google Fonts (binaries are not bundled locally).
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Ruda:wght@400;500;600;700;800;900&display=swap');

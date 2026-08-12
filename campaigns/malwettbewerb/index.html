@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malwettbewerb für Kinder — Interliving Bäucke</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html, body { margin: 0; background: var(--surface-page); }
+  @media (max-width: 900px) {
+    .hero-grid, .dl-grid { grid-template-columns: 1fr !important; }
+    .prize-grid, .step-grid, .steps-split { grid-template-columns: 1fr !important; }
+    .hide-sm { display: none !important; }
+  }
+  @media (max-width: 560px) {
+    .f-row { grid-template-columns: 1fr !important; }
+  }
+  /* Scroll reveal — JS adds .reveal-init (hidden) then .is-visible (shown). */
+  .reveal-init { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+  .reveal-init.is-visible { opacity: 1 !important; transform: none !important; }
+  .eyebrow { color: #A04E00; }
+  @media (max-width: 700px) {
+    .dl-panel { padding: var(--space-6) !important; }
+    .dl-grid { gap: var(--space-6) !important; }
+    .form-card { padding: var(--space-5) !important; }
+    main section h2 { font-size: 28px !important; }
+  }
+  @media (max-width: 420px) {
+    #download button { white-space: normal !important; }
+    .dl-grid > * { min-width: 0 !important; }
+  }
+  @media (max-width: 360px) {
+    .voucher-ticket { flex-direction: column !important; }
+    .voucher-stub { flex: none !important; min-width: 0 !important; flex-direction: row !important; align-items: baseline !important; gap: 10px !important; padding: 12px 16px !important; }
+    .voucher-perf { width: auto !important; height: 0 !important; border-left: 0 !important; border-top: 2px dashed var(--border-default) !important; }
+    .voucher-perf > span { top: -9px !important; left: -9px !important; right: auto !important; }
+    .voucher-perf > span:last-child { top: -9px !important; left: auto !important; right: -9px !important; bottom: auto !important; }
+    .voucher-body { padding: 14px 16px !important; }
+  }
+  @media (max-width: 360px) {
+    main h1 { font-size: 32px !important; }
+    .hero-grid > div { min-width: 0 !important; }
+  }
+  @media (max-width: 400px) {
+    .cd-row > div { min-width: 66px !important; padding: 8px 10px !important; }
+    .hd-logo { height: 34px !important; }
+    header .baeucke-cta { padding-left: 12px !important; padding-right: 12px !important; font-size: 0.8125rem !important; }
+  }
+
+  main section h2 { font-size: 35px; }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="lib.jsx"></script>
+<script type="text/babel" src="sections.jsx"></script>
+<script type="text/babel" src="UploadForm.jsx"></script>
+
+<script type="text/babel">
+  function App() {
+    const { Header, Hero, Countdown, Prizes, Steps, Download, Reviews, StoreInfo, FAQ, Footer, UploadForm } = window;
+    return (
+      <>
+        <Header />
+        <main>
+          <Hero />
+          <Countdown />
+          <Prizes />
+          <Steps />
+          <Download />
+          <Reviews />
+          <UploadForm />
+          <StoreInfo />
+          <FAQ />
+        </main>
+        <Footer />
+      </>
+    );
+  }
+  function mount() {
+    if (!window.Header || !window.UploadForm || !window.Footer) { setTimeout(mount, 40); return; }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    (function setupReveal(tries) {
+      const sections = document.querySelectorAll('main > section');
+      if (sections.length < 3 && tries < 60) { setTimeout(() => setupReveal(tries + 1), 50); return; }
+      if (reduce) return;
+      sections.forEach((s) => s.classList.add('reveal-init'));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      sections.forEach((s) => io.observe(s));
+      setTimeout(() => sections.forEach((s) => s.classList.add('is-visible')), 3000);
+    })(0);
+  }
+  mount();
+</script>
+</body>
+</html>

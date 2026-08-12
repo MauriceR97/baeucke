@@ -1,0 +1,44 @@
+/* ============================================================
+   Interliving Bäucke — Typography Tokens
+   Single family (Ruda). Headlines: Bold/ExtraBold. Body: Medium.
+   ============================================================ */
+:root {
+  /* Families */
+  --font-sans: 'Ruda', 'Trebuchet MS', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+
+  /* Weights (per brand kit: headlines Bold, body Medium) */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+
+  /* Fluid display sizes (marketing) */
+  --text-display: clamp(2.75rem, 6.4vw, 5rem);  /* hero */
+  --text-h1: clamp(2.25rem, 4.6vw, 3.5rem);
+  --text-h2: clamp(1.75rem, 3.2vw, 2.5rem);
+  --text-h3: clamp(1.375rem, 2.2vw, 1.75rem);
+  --text-h4: 1.25rem;
+
+  /* UI / body steps */
+  --text-xl: 1.25rem;    /* 20 */
+  --text-lg: 1.125rem;   /* 18 */
+  --text-md: 1rem;       /* 16 — base body */
+  --text-sm: 0.875rem;   /* 14 */
+  --text-xs: 0.75rem;    /* 12 — labels, microtext */
+
+  /* Line heights */
+  --leading-tight: 1.08;   /* display headlines */
+  --leading-snug: 1.25;    /* sub-heads */
+  --leading-normal: 1.55;  /* body */
+  --leading-relaxed: 1.7;  /* long-form */
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-caps: 0.12em;  /* the "MÖBEL | KÜCHEN | WOHNKULTUR" microtext look */
+}

@@ -1,0 +1,11 @@
+/* ============================================================
+   Interliving Bäucke — Design System entry point
+   Consumers link THIS file only. Import order matters:
+   fonts → tokens → base.
+   ============================================================ */
+@import "tokens/fonts.css";
+@import "tokens/colors.css";
+@import "tokens/typography.css";
+@import "tokens/spacing.css";
+@import "tokens/radius-elevation.css";
+@import "tokens/base.css";

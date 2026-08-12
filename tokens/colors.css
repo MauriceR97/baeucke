@@ -1,0 +1,84 @@
+/* ============================================================
+   Interliving Bäucke — Color Tokens
+   Brand core (from Brand Kit): Yellow #EEC801, Graphite #494949,
+   Signal Red #E3000F, White #FFFFFF.
+   ============================================================ */
+:root {
+  /* --- Brand core --- */
+  --baeucke-yellow: #EEC801;   /* Interliving signal yellow — primary brand color */
+  --baeucke-graphite: #494949; /* Headline & ink grey */
+  --baeucke-red: #E3000F;      /* Signal red — sale / urgent only */
+  --baeucke-white: #FFFFFF;
+
+  /* --- Yellow scale (warm, derived from #EEC801) --- */
+  --yellow-50:  #FEFAE6;
+  --yellow-100: #FCF1B8;
+  --yellow-200: #F8E477;
+  --yellow-300: #F4D63B;
+  --yellow-400: #EEC801;   /* = brand yellow */
+  --yellow-500: #D4B201;
+  --yellow-600: #A98E01;
+  --yellow-700: #7E6A02;
+  --yellow-800: #524503;
+
+  /* --- Neutral / graphite scale (warm-cool grey, anchored on #494949) --- */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #F7F7F6;
+  --neutral-100: #EFEFEE;
+  --neutral-200: #E0E0DE;
+  --neutral-300: #C7C7C4;
+  --neutral-400: #9A9A97;
+  --neutral-500: #6E6E6C;
+  --neutral-600: #565654;
+  --neutral-700: #494949;   /* = brand graphite */
+  --neutral-800: #353535;
+  --neutral-900: #232323;
+  --neutral-950: #161616;
+
+  /* --- Signal red scale --- */
+  --red-100: #FDD9DB;
+  --red-300: #F26168;
+  --red-500: #E3000F;   /* = brand red */
+  --red-700: #A60009;
+
+  /* --- Success / info (used sparingly in product UI) --- */
+  --green-500: #2E7D52;
+  --green-100: #DCEFE4;
+
+  /* ============================================================
+     Semantic aliases — prefer these in components
+     ============================================================ */
+  /* Surfaces */
+  --surface-page:    var(--neutral-50);   /* default page background */
+  --surface-card:    var(--neutral-0);    /* cards, panels */
+  --surface-sunken:  var(--neutral-100);  /* wells, inputs at rest */
+  --surface-inverse: var(--neutral-700);  /* dark sections / footer */
+  --surface-brand:   var(--yellow-400);   /* yellow feature blocks */
+
+  /* Text */
+  --text-strong:   var(--neutral-800);  /* headlines */
+  --text-body:     var(--neutral-700);  /* body copy */
+  --text-muted:    var(--neutral-500);  /* secondary / captions */
+  --text-faint:    var(--neutral-400);  /* disabled / placeholder */
+  --text-on-brand: var(--neutral-800);  /* text on yellow */
+  --text-inverse:  var(--neutral-0);    /* text on dark */
+
+  /* Lines & borders */
+  --border-subtle: var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --border-strong: var(--neutral-700);
+
+  /* Interactive / brand actions */
+  --action-primary:        var(--yellow-400);
+  --action-primary-hover:  var(--yellow-500);
+  --action-primary-press:  var(--yellow-600);
+  --action-ink:            var(--neutral-800);  /* dark button fill */
+  --action-ink-hover:      var(--neutral-900);
+
+  /* Status */
+  --status-sale:    var(--red-500);
+  --status-success: var(--green-500);
+
+  /* Focus ring */
+  --focus-ring: color-mix(in srgb, var(--baeucke-yellow) 55%, var(--neutral-800));
+}

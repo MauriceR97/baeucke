@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jetzt abstimmen — Malwettbewerb Interliving Bäucke</title>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  html, body { margin: 0; background: var(--surface-page); }
+  .reveal-init { opacity: 0; transform: translateY(32px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+  .reveal-init.is-visible { opacity: 1 !important; transform: none !important; }
+  .eyebrow { color: #A04E00; }
+  main section h2 { font-size: 35px; }
+  /* Langer Header-CTA nur auf dem Desktop, kurzer nur auf Mobil */
+  .cta-desktop { display: none !important; }
+  @media (min-width: 901px) {
+    .cta-desktop { display: inline-flex !important; }
+    .cta-mobile { display: none !important; }
+  }
+  @media (max-width: 1080px) {
+    .gal-grid { grid-template-columns: repeat(4, 1fr) !important; }
+  }
+  @media (max-width: 900px) {
+    .hero-grid, .steps-split { grid-template-columns: 1fr !important; }
+    .prize-grid, .step-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .top-grid > div { transform: none !important; }
+    .hero-scrim { background: linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.94) 62%, rgba(255,255,255,0.78) 100%) !important; }
+    .hide-sm { display: none !important; }
+  }
+  @media (max-width: 760px) {
+    .top-grid { grid-template-columns: 1fr !important; }
+    .gal-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .prize-row { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 700px) { main section h2 { font-size: 28px !important; } }
+  @media (max-width: 560px) { .prize-grid, .step-grid, .gal-grid, .top-grid { grid-template-columns: 1fr !important; } }
+  @media (max-width: 400px) {
+    .cd-row > div { min-width: 66px !important; padding: 8px 10px !important; }
+    .hd-logo { height: 34px !important; }
+    header .baeucke-cta { padding-left: 12px !important; padding-right: 12px !important; font-size: 0.8125rem !important; }
+  }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="lib.jsx"></script>
+<script type="text/babel" src="sections.jsx"></script>
+<script type="text/babel" src="Gallery.jsx"></script>
+
+<script type="text/babel">
+  function App() {
+    const { Header, Hero, Countdown, Steps, Gallery, Prizes, Reviews, StoreInfo, FAQ, Footer } = window;
+    window.__voting = window.useVoting();
+    return (
+      <>
+        <Header />
+        <main style={{ background: '#FFFFFF' }}>
+          <Hero />
+          <Countdown />
+          <Steps />
+          <Gallery />
+          <Prizes />
+          <Reviews />
+          <StoreInfo />
+          <FAQ />
+        </main>
+        <Footer />
+      </>
+    );
+  }
+  function mount() {
+    if (!window.Header || !window.Gallery || !window.useVoting || !window.Footer) { setTimeout(mount, 40); return; }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    (function setupReveal(tries) {
+      const sections = document.querySelectorAll('main > section');
+      if (sections.length < 3 && tries < 60) { setTimeout(() => setupReveal(tries + 1), 50); return; }
+      if (reduce) return;
+      sections.forEach((s) => s.classList.add('reveal-init'));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      sections.forEach((s) => io.observe(s));
+      setTimeout(() => sections.forEach((s) => s.classList.add('is-visible')), 3000);
+    })(0);
+  }
+  mount();
+</script>
+</body>
+</html>
