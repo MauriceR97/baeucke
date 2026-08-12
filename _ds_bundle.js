@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"ffa7717a9411","campaigns/abstimmung/lib.js":"32428a160f07","campaigns/abstimmung/sections.js":"aecb927d4abd","campaigns/malwettbewerb/UploadForm.js":"18d0b78e2de0","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"af99c1133e3b","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"db775f0f4bf1","campaigns/abstimmung/lib.js":"32428a160f07","campaigns/abstimmung/sections.js":"81e5a2e3fc9c","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"0357e3333207","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -584,7 +584,9 @@ function VoteModal({
       lineHeight: 1.45
     }
   }, "Ich habe die ", /*#__PURE__*/React.createElement("a", {
-    href: "#datenschutz",
+    href: "https://www.baeucke.de/datenschutz",
+    target: "_blank",
+    rel: "noopener",
     onClick: ev => ev.stopPropagation(),
     style: {
       color: 'var(--text-strong)',
@@ -2588,7 +2590,23 @@ function Footer() {
       display: 'flex',
       gap: 18
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Teilnahmebedingungen"), /*#__PURE__*/React.createElement("span", null, "Datenschutz"), /*#__PURE__*/React.createElement("span", null, "Impressum")))));
+  }, /*#__PURE__*/React.createElement("span", null, "Teilnahmebedingungen"), /*#__PURE__*/React.createElement("a", {
+    href: "https://www.baeucke.de/datenschutz",
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: "rgba(255,255,255,0.8)",
+      textDecoration: "none"
+    }
+  }, "Datenschutz"), /*#__PURE__*/React.createElement("a", {
+    href: "https://www.baeucke.de/impressum",
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: "rgba(255,255,255,0.8)",
+      textDecoration: "none"
+    }
+  }, "Impressum")))));
 }
 Object.assign(window, {
   scrollToId,
@@ -3114,7 +3132,17 @@ function UploadForm() {
       gap: 'var(--space-3)',
       marginTop: 4
     }
-  }, checkboxRow(consentData, setConsentData, errors.consentData, /*#__PURE__*/React.createElement(React.Fragment, null, "Ich bin einverstanden, dass die angegebenen Daten zur Durchf\xFChrung des Malwettbewerbs gespeichert und verarbeitet werden. ", /*#__PURE__*/React.createElement("b", {
+  }, checkboxRow(consentData, setConsentData, errors.consentData, /*#__PURE__*/React.createElement(React.Fragment, null, "Ich habe die ", /*#__PURE__*/React.createElement("a", {
+    href: "https://www.baeucke.de/datenschutz",
+    target: "_blank",
+    rel: "noopener",
+    onClick: ev => ev.stopPropagation(),
+    style: {
+      color: "var(--text-strong)",
+      fontWeight: 700,
+      textDecoration: "underline"
+    }
+  }, "Datenschutzerkl\xE4rung"), " gelesen und bin einverstanden, dass die angegebenen Daten zur Durchf\xFChrung des Malwettbewerbs gespeichert und verarbeitet werden. ", /*#__PURE__*/React.createElement("b", {
     style: {
       color: 'var(--text-strong)'
     }
@@ -4291,8 +4319,8 @@ function Download() {
       marginBottom: 24
     }
   }, "Drucken Sie die Vorlage aus \u2013 und Ihr Kind kann unser M\xF6belhaus mit Wiese, Himmel und allem Drum und Dran bunt gestalten. Je kreativer, desto besser!"), /*#__PURE__*/React.createElement("a", {
-    href: "assets/ausmalbild-vorlage.png",
-    download: "Baeucke-Malwettbewerb-Ausmalbild.png",
+    href: "assets/Baeucke-Ausmalbild-A4.pdf",
+    download: "Baeucke-Malwettbewerb-Ausmalbild.pdf",
     style: {
       textDecoration: 'none'
     }
@@ -4878,7 +4906,23 @@ function Footer() {
       display: 'flex',
       gap: 18
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Teilnahmebedingungen"), /*#__PURE__*/React.createElement("span", null, "Datenschutz"), /*#__PURE__*/React.createElement("span", null, "Impressum")))));
+  }, /*#__PURE__*/React.createElement("span", null, "Teilnahmebedingungen"), /*#__PURE__*/React.createElement("a", {
+    href: "https://www.baeucke.de/datenschutz",
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: "rgba(255,255,255,0.8)",
+      textDecoration: "none"
+    }
+  }, "Datenschutz"), /*#__PURE__*/React.createElement("a", {
+    href: "https://www.baeucke.de/impressum",
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: "rgba(255,255,255,0.8)",
+      textDecoration: "none"
+    }
+  }, "Impressum")))));
 }
 Object.assign(window, {
   scrollToId,

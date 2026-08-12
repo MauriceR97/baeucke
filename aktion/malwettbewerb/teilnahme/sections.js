@@ -964,8 +964,8 @@ function Download() {
       marginBottom: 24
     }
   }, "Drucken Sie die Vorlage aus \u2013 und Ihr Kind kann unser M\xF6belhaus mit Wiese, Himmel und allem Drum und Dran bunt gestalten. Je kreativer, desto besser!"), /*#__PURE__*/React.createElement("a", {
-    href: "assets/ausmalbild-vorlage.png",
-    download: "Baeucke-Malwettbewerb-Ausmalbild.png",
+    href: "assets/Baeucke-Ausmalbild-A4.pdf",
+    download: "Baeucke-Malwettbewerb-Ausmalbild.pdf",
     style: {
       textDecoration: 'none'
     }
@@ -1083,186 +1083,47 @@ function Stars({
   }, s)));
 }
 function Reviews() {
-  const {
-    Ico,
-    REVIEWS,
-    SEAL_URL,
-    GOOGLE,
-    GoogleG
-  } = window;
+  const { Ico, SEAL_URL, GOOGLE, GoogleG } = window;
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (document.querySelector('script[src*="elfsightcdn.com/platform.js"]')) return;
+    const sk = document.createElement('script');
+    sk.src = 'https://elfsightcdn.com/platform.js';
+    sk.async = true;
+    document.body.appendChild(sk);
+  }, []);
   return /*#__PURE__*/React.createElement("section", {
-    style: {
-      background: 'var(--surface-card)'
-    }
+    style: { background: '#F7F7F7' }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 'var(--container-max)',
-      margin: '0 auto',
-      padding: 'var(--section-y) var(--gutter)'
-    }
+    style: { maxWidth: 'var(--container-max)', margin: '0 auto', padding: 'var(--section-y) var(--gutter)' }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 'var(--space-8)',
-      flexWrap: 'wrap',
-      marginBottom: 'var(--space-8)'
-    }
-  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    className: "eyebrow"
-  }, "Das sagen unsere Kunden"), /*#__PURE__*/React.createElement("h2", {
-    style: {
-      margin: '10px 0 0'
-    }
-  }, "Ausgezeichnet bewertet bei Google")), /*#__PURE__*/React.createElement("img", {
-    src: SEAL_URL,
-    alt: "Auszeichnung / Siegel",
-    style: {
-      height: 110,
-      width: 'auto',
-      flex: 'none'
-    }
+    style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-8)', flexWrap: 'wrap', marginBottom: 'var(--space-8)' }
+  }, /*#__PURE__*/React.createElement("div", null,
+    /*#__PURE__*/React.createElement("span", { className: "eyebrow" }, "Das sagen unsere Kunden"),
+    /*#__PURE__*/React.createElement("h2", { style: { margin: '10px 0 0' } }, "Ausgezeichnet bewertet bei Google")
+  ), /*#__PURE__*/React.createElement("img", {
+    src: SEAL_URL, alt: "Auszeichnung / Siegel", style: { height: 110, width: 'auto', flex: 'none' }, loading: "lazy"
   })), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'var(--space-6)',
-      flexWrap: 'wrap',
-      background: 'var(--surface-page)',
-      border: '1px solid var(--border-subtle)',
-      borderRadius: 'var(--radius-lg)',
-      padding: 'var(--space-5) var(--space-6)',
-      marginBottom: 'var(--space-6)'
-    }
+    style: { display: 'flex', alignItems: 'center', gap: 'var(--space-6)', flexWrap: 'wrap', background: 'var(--surface-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-5) var(--space-6)', marginBottom: 'var(--space-6)' }
   }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement(GoogleG, {
-    size: 40
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontWeight: 800,
-      fontSize: 'var(--text-lg)',
-      color: 'var(--text-strong)'
-    }
-  }, "Google", /*#__PURE__*/React.createElement("br", null), "Bewertungen")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: 1,
-      height: 44,
-      background: 'var(--border-subtle)'
-    },
-    className: "hide-sm"
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'baseline',
-      gap: 10
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 'clamp(2.25rem, 5vw, 2.75rem)',
-      fontWeight: 900,
-      color: 'var(--text-strong)',
-      lineHeight: 1
-    }
-  }, GOOGLE.rating), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 2
-    }
-  }, /*#__PURE__*/React.createElement(Stars, {
-    size: 18
-  }), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 'var(--text-sm)',
-      color: 'var(--text-muted)',
-      fontWeight: 600
-    }
-  }, GOOGLE.count, " Rezensionen"))), /*#__PURE__*/React.createElement("a", {
-    href: GOOGLE.url,
-    target: "_blank",
-    rel: "noopener",
-    style: {
-      marginLeft: 'auto',
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 6,
-      color: 'var(--text-strong)',
-      fontWeight: 700,
-      fontSize: 'var(--text-sm)'
-    }
-  }, "Alle Bewertungen ansehen ", /*#__PURE__*/React.createElement(Ico, {
-    name: "ExternalLink",
-    size: 15
-  }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: 'var(--space-5)'
-    },
-    className: "step-grid"
-  }, REVIEWS.map((r, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      background: 'var(--surface-page)',
-      border: '1px solid var(--border-subtle)',
-      borderRadius: 'var(--radius-lg)',
-      padding: 'var(--space-6)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React.createElement(Stars, null), /*#__PURE__*/React.createElement(Ico, {
-    name: "Quote",
-    size: 22,
-    color: "var(--border-default)"
-  })), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: 0,
-      color: 'var(--text-body)',
-      fontSize: 'var(--text-md)',
-      flex: 1
-    }
-  }, "\u201E", r.text, "\u201C"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      paddingTop: 4
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 34,
-      height: 34,
-      borderRadius: 'var(--radius-pill)',
-      background: 'var(--yellow-100)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 'none'
-    }
-  }, /*#__PURE__*/React.createElement(Ico, {
-    name: "User",
-    size: 18,
-    color: "var(--neutral-700)"
-  })), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 'var(--text-sm)',
-      fontWeight: 700,
-      color: 'var(--text-muted)'
-    }
-  }, r.who)))))));
+    style: { display: 'flex', alignItems: 'center', gap: 12 }
+  }, /*#__PURE__*/React.createElement(GoogleG, { size: 40 }),
+     /*#__PURE__*/React.createElement("span", { style: { fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--text-strong)' } }, "Google", /*#__PURE__*/React.createElement("br", null), "Bewertungen")
+  ), /*#__PURE__*/React.createElement("div", { style: { width: 1, height: 44, background: 'var(--border-subtle)' }, className: "hide-sm" }),
+     /*#__PURE__*/React.createElement("div", { style: { display: 'flex', alignItems: 'baseline', gap: 10 } },
+       /*#__PURE__*/React.createElement("span", { style: { fontSize: 'clamp(2.25rem, 5vw, 2.75rem)', fontWeight: 900, color: 'var(--text-strong)', lineHeight: 1 } }, GOOGLE.rating),
+       /*#__PURE__*/React.createElement("div", { style: { display: 'flex', flexDirection: 'column', gap: 2 } },
+         /*#__PURE__*/React.createElement(Stars, { size: 18 }),
+         /*#__PURE__*/React.createElement("span", { style: { fontSize: 'var(--text-sm)', color: 'var(--text-muted)', fontWeight: 600 } }, GOOGLE.count, " Rezensionen")
+       )
+     ),
+     /*#__PURE__*/React.createElement("a", { href: GOOGLE.url, target: "_blank", rel: "noopener", style: { marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-strong)', fontWeight: 700, fontSize: 'var(--text-sm)' } },
+       "Alle Bewertungen ansehen ", /*#__PURE__*/React.createElement(Ico, { name: "ExternalLink", size: 15 }))
+  ), /*#__PURE__*/React.createElement("div", {
+    ref: ref,
+    className: "elfsight-app-83aa18aa-0f46-4425-915f-523eec94fa20",
+    "data-elfsight-app-lazy": true
+  })));
 }
 function StoreInfo() {
   const {
