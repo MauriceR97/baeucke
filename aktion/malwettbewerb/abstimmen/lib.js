@@ -50,7 +50,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e02',
   vorname: 'Jonas',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 96
 }, {
   id: 'e03',
@@ -60,7 +60,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e04',
   vorname: 'Ben',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 74
 }, {
   id: 'e05',
@@ -70,7 +70,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e06',
   vorname: 'Paul',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 43
 }, {
   id: 'e07',
@@ -80,7 +80,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e08',
   vorname: 'Felix',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 61
 }];
 
@@ -258,12 +258,6 @@ const VOTE_FAQS = [{
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
   a: 'Die drei Bilder mit den meisten Stimmen zum Ende der Abstimmung gewinnen. Die Familien werden über die beim Upload angegebenen Kontaktdaten benachrichtigt.'
-}, {
-  q: 'Was gibt es zu gewinnen?',
-  a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.'
-}, {
-  q: 'Warum wird nur der Vorname angezeigt?',
-  a: 'Zum Schutz der Kinder veröffentlichen wir ausschließlich den Vornamen – und nur, wenn die Erziehungsberechtigten der Veröffentlichung zugestimmt haben.'
 }];
 const REVIEWS = [{
   text: 'Das beste Möbelhaus im Umkreis. Sehr freundliche Mitarbeiter – hier ist der Kunde noch König. Nur zu empfehlen!',

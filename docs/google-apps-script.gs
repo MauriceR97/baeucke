@@ -51,29 +51,38 @@ function findeBlatt(pflichtSpalten, namensVorschlaege) {
     const kopf = kopfzeile(blaetter[i]);
     var alleDa = true;
     for (var s = 0; s < pflichtSpalten.length; s++) {
-      if (kopf.indexOf(pflichtSpalten[s]) === -1) { alleDa = false; break; }
+      if (kopf.indexOf(schluessel(pflichtSpalten[s])) === -1) { alleDa = false; break; }
     }
     if (alleDa) return blaetter[i];
   }
   // 2) Über den Blattnamen
   for (var n = 0; n < namensVorschlaege.length; n++) {
     for (var b = 0; b < blaetter.length; b++) {
-      if (blaetter[b].getName().toLowerCase().indexOf(namensVorschlaege[n]) !== -1) return blaetter[b];
+      if (schluessel(blaetter[b].getName()).indexOf(schluessel(namensVorschlaege[n])) !== -1) return blaetter[b];
     }
   }
   return null;
 }
 
+/** Vereinheitlicht einen Spaltennamen: Umlaute, Leerzeichen und Zeichensetzung
+    spielen beim Abgleich keine Rolle mehr ("E-Mail-Werbung" = "email werbung"). */
+function schluessel(text) {
+  var t = String(text == null ? '' : text);
+  if (t.normalize) t = t.normalize('NFC');
+  return t.toLowerCase()
+    .replace(/\u00e4/g, 'ae').replace(/\u00f6/g, 'oe').replace(/\u00fc/g, 'ue').replace(/\u00df/g, 'ss')
+    .replace(/[^a-z0-9]/g, '');
+}
+
 function kopfzeile(blatt) {
   if (blatt.getLastColumn() === 0) return [];
-  return blatt.getRange(1, 1, 1, blatt.getLastColumn()).getValues()[0]
-    .map(function (h) { return String(h).trim().toLowerCase(); });
+  return blatt.getRange(1, 1, 1, blatt.getLastColumn()).getValues()[0].map(schluessel);
 }
 
 /** Sucht eine Spalte über mehrere mögliche Schreibweisen. -1 wenn nicht da. */
 function spalteVon(kopf, namen) {
   for (var i = 0; i < namen.length; i++) {
-    const idx = kopf.indexOf(String(namen[i]).toLowerCase());
+    const idx = kopf.indexOf(schluessel(namen[i]));
     if (idx !== -1) return idx;
   }
   return -1;
@@ -262,7 +271,7 @@ function doGet(e) {
     const werte = blatt.getDataRange().getValues();
     if (werte.length < 2) return antwort({ ok: true, bilder: [] }, callback);
 
-    const kopf = werte[0].map(function (h) { return String(h).trim().toLowerCase(); });
+    const kopf = werte[0].map(schluessel);
     const sId    = spalteVon(kopf, ['bild-id', 'id']);
     const sName  = spalteVon(kopf, ['vorname kind', 'vorname']);
     const sBild  = spalteVon(kopf, ['bild-link', 'bildlink']);

@@ -1,115 +1,94 @@
-# Einrichtung: Google-Tabelle verbinden
+# Malwettbewerb — Interliving Bäucke
 
-Beide Seiten (Einsendung und Abstimmung) arbeiten mit **einer** Tabelle und
-**einem** Apps Script. Sie richten es also nur einmal ein.
-
-Die fertige Tabelle liegt unter:
-https://docs.google.com/spreadsheets/d/1xeyz5q568CeI_kyYY6fm6Cg7wDnjI8qoZFTWymr1O6g/
-
----
-
-## 1. Spalten prüfen
-
-**Blatt A – Einsendungen.** Diese Spaltenüberschriften werden gebraucht:
-
-| Spalte | Zweck |
+| Seite | URL |
 |---|---|
-| Zeitstempel | wird automatisch gesetzt |
-| **Bild-ID** | verbindet Bild und Stimmen (e001, e002 …) |
-| Vorname Kind | wird in der Galerie angezeigt |
-| Name Erziehungsberechtigte:r | Kontakt |
-| E-Mail / Telefon | Gewinnbenachrichtigung |
-| Bild-Link | Google-Drive-Link zum Bild |
-| Einwilligung Datenschutz / Veröffentlichung | aus dem Formular |
-| Stimmen | Zähler, wird automatisch erhöht |
-| **Freigabe** | „Ja" = Bild erscheint in der Galerie |
-| Status | für Ihre eigene Übersicht |
+| Einsendung | `/aktion/malwettbewerb/teilnahme/` |
+| Abstimmung | `/aktion/malwettbewerb/abstimmen/` |
 
-Die beiden **fett** markierten Spalten fehlen aktuell noch. Sie müssen sie nicht
-von Hand anlegen – das Skript ergänzt sie beim ersten Lauf automatisch am Ende
-der Kopfzeile. Wenn Sie sie lieber selbst an eine passende Stelle setzen: Die
-Reihenfolge ist egal, das Skript arbeitet über die Überschriften.
+Beide liegen als `index.html` in ihrem Ordner – deshalb steht **kein** `index.html`
+in der Adresse. Der Aufruf von `/` leitet direkt zur Teilnahme-Seite weiter.
 
-**Blatt B – Abstimmende.** Hier passt bereits alles:
-Zeitstempel · Bild-ID · Bild (Kind) · Vorname · Nachname · E-Mail · Telefon ·
-PLZ · Möbelwunsch · Datenschutz · E-Mail-Werbung · Verlosung Gewinner
+## Einrichtung
 
----
-
-## 2. Drive-Ordner für die Bilder
-
-In Google Drive einen Ordner anlegen (z. B. „Malwettbewerb Bilder"), öffnen und
-die ID aus der Adresse kopieren:
-`https://drive.google.com/drive/folders/` **`DIESE_ID`**
-
----
-
-## 3. Apps Script einrichten
-
-1. Tabelle öffnen → **Erweiterungen → Apps Script**
-2. Den kompletten Inhalt von `google-apps-script.gs` einfügen und speichern
-3. Oben bei `DRIVE_ORDNER_ID` die eben kopierte Ordner-ID eintragen
-4. **Bereitstellen → Neue Bereitstellung → Web-App**
-   - *Ausführen als:* **Ich**
-   - *Zugriff:* **Jeder**
-5. Bereitstellen, Berechtigungen bestätigen, die **Web-App-Adresse** kopieren
-   (endet auf `/exec`)
-
----
-
-## 4. Adresse in die Seiten eintragen
-
-Dieselbe `/exec`-Adresse kommt an drei Stellen:
+Anleitung: `docs/Google-Sheets-Anleitung.md`. Ein Apps Script für beide Seiten,
+eine Bereitstellung, eine `/exec`-Adresse – einzutragen an drei Stellen:
 
 ```js
-// aktion/malwettbewerb/teilnahme/UploadForm.jsx
+// aktion/malwettbewerb/teilnahme/UploadForm.js
 const SHEET_ENDPOINT = '';   // Bild-Einsendungen speichern
 
-// aktion/malwettbewerb/abstimmen/Gallery.jsx
+// aktion/malwettbewerb/abstimmen/Gallery.js
 const VOTE_ENDPOINT = '';    // Stimmen entgegennehmen
 
-// aktion/malwettbewerb/abstimmen/lib.jsx
+// aktion/malwettbewerb/abstimmen/lib.js
 const DATEN_URL = '';        // Bilder + Stimmenstand laden
 ```
 
-Solange die Felder leer sind, laufen die Seiten im Testmodus (Validierung und
+Solange die Felder leer sind, laufen die Formulare im Testmodus (Validierung und
 Erfolgsmeldung, ohne zu speichern).
-
----
-
-## 5. Bilder freigeben
-
-Neue Einsendungen bekommen automatisch `Freigabe = Nein` und erscheinen **nicht**
-in der Galerie. Nach Ihrer Prüfung setzen Sie den Wert auf **Ja** – dann ist das
-Bild öffentlich sichtbar und kann gewählt werden.
-
----
 
 ## Datenschutz
 
-Die Tabelle bleibt **privat**. Bitte **nicht** über „Datei → Im Web
-veröffentlichen" freigeben – damit wären alle Spalten inklusive Elternnamen,
-E-Mail und Telefon öffentlich abrufbar.
+Die Google-Tabelle bleibt **privat** und darf **nicht** über „Datei → Im Web
+veröffentlichen“ freigegeben werden – sonst wären Elternnamen, E-Mail-Adressen
+und Telefonnummern öffentlich abrufbar.
 
-Die Galerie holt ihre Daten über das Apps Script. Es läuft mit Ihren Rechten und
-gibt ausschließlich die Felder heraus, die ohnehin auf der Seite stehen:
-**Bild-ID, Vorname des Kindes, Bild-Link, Stimmenzahl.** Kontaktdaten
-verlassen die Tabelle nie – auch nicht für jemanden, der die Adresse im
-Quelltext der Seite findet.
+Die Galerie holt ihre Daten über das Apps Script, das mit Ihren Rechten läuft und
+**nur** die öffentlichen Felder herausgibt: Bild-ID, Vorname des Kindes,
+Bild-Link und Stimmenzahl. Kontaktdaten verlassen die Tabelle nie.
 
-Die Bilder selbst liegen in Drive und werden beim Upload auf „Jeder mit dem
-Link" gestellt, damit sie angezeigt werden können. Über die Spalte `Freigabe`
-steuern Sie, welche davon tatsächlich auf der Seite erscheinen.
+Neue Einsendungen stehen auf `Freigabe = Nein` und erscheinen **nicht** in der
+Galerie. Erst wenn Sie den Wert auf „Ja“ setzen, wird das Bild öffentlich.
+Vom Kind wird ausschließlich der **Vorname** veröffentlicht.
 
-**Doppelte Stimmen** werden anhand der E-Mail-Adresse verhindert.
+Datenschutz und Impressum sind auf `baeucke.de` verlinkt.
 
----
+## Google-Rezensionen
 
-## Verlosung ziehen
+Beide Seiten binden das Elfsight-Widget ein (App-ID `83aa18aa-…`). Das Skript
+wird einmalig geladen, `async` und mit Lazy-Loading.
 
-Gewinner:in unter allen Abstimmenden zufällig ermitteln – in einer freien Zelle
-von Blatt B:
+## Lokal ansehen
+
+```bash
+python3 -m http.server 8000
+# dann http://localhost:8000/aktion/malwettbewerb/teilnahme/ öffnen
+```
+
+## Veröffentlichen (GitHub Pages)
+
+1. Repository anlegen und diesen Ordner pushen.
+2. **Settings → Pages → Source: Deploy from a branch**, Branch `main`, Ordner `/ (root)`.
+
+`.nojekyll` verhindert, dass Pages Dateien mit Unterstrich (`_ds_bundle.js`)
+ignoriert – bitte nicht löschen.
+
+Für die Adresse ohne Repo-Namen (`baeucke.de/aktion/malwettbewerb/teilnahme/`)
+unter Settings → Pages eine eigene Domain eintragen oder den Inhalt direkt in das
+entsprechende Verzeichnis Ihres Webservers laden.
+
+## Aufbau
 
 ```
-=INDEX(F2:F;RANDBETWEEN(1;ANZAHL2(F2:F)))
+index.html                        Weiterleitung auf die Teilnahme-Seite
+styles.css  tokens/               Designsystem (Farben, Typografie, Abstände)
+_ds_bundle.js                     UI-Komponenten (Button, Input, Card …)
+assets/logos/                     Logo in drei Varianten
+aktion/malwettbewerb/teilnahme/   Einsende-Seite
+aktion/malwettbewerb/abstimmen/   Abstimmungs-Seite
+docs/                             Apps Script + Anleitung
+```
+
+Pro Seite: `lib.js` = Daten und Helfer, `sections.js` = Abschnitte,
+`index.html` setzt alles zusammen. Das JSX ist vorab übersetzt, im Browser läuft
+kein Babel.
+
+## Bild-Uploads
+
+Jedes Foto wird **im Browser verkleinert**, bevor es hochgeht: max. 2000 px lange
+Kante, rund 1 MB. Anpassbar oben in `teilnahme/UploadForm.js`:
+
+```js
+const MAX_KANTE = 2000;
+const ZIEL_BYTES = 1024 * 1024;
 ```

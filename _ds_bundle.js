@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"db775f0f4bf1","campaigns/abstimmung/lib.js":"32428a160f07","campaigns/abstimmung/sections.js":"81e5a2e3fc9c","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"0357e3333207","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"af86b416ba64","campaigns/abstimmung/lib.js":"3e392c67e51d","campaigns/abstimmung/sections.js":"1c54c6e4dd42","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"3f6b5d81c698","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -151,7 +151,7 @@ function ArtCard({
     }
   }, url ? /*#__PURE__*/React.createElement("img", {
     src: url,
-    alt: `Ausgemaltes Bild von ${e.vorname}, $`,
+    alt: `Ausgemaltes Bild von ${e.vorname}`,
     loading: "lazy",
     style: {
       width: '100%',
@@ -950,17 +950,17 @@ function Gallery() {
     style: {
       margin: '10px 0 8px'
     }
-  }, "Alle ", rangliste.length, " Bilder"), ladeStatus === 'laedt' ? /*#__PURE__*/React.createElement("p", {
+  }, "Die Ergebnisse"), ladeStatus === 'laedt' ? /*#__PURE__*/React.createElement("p", {
     style: {
       color: 'var(--text-muted)',
       margin: 0
     }
-  }, "Die Einsendungen werden geladen \u2026") : /*#__PURE__*/React.createElement("p", {
+  }, "Die Einsendungen werden geladen \u2026") : (meineStimme || rangliste.length >= 3) && /*#__PURE__*/React.createElement("p", {
     style: {
       color: 'var(--text-muted)',
       margin: 0
     }
-  }, meineStimme ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
+  }, meineStimme ? rangliste.length >= 3 ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Vielen Dank – Ihre Stimme ist gespeichert.' : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
     style: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -1102,7 +1102,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e02',
   vorname: 'Jonas',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 96
 }, {
   id: 'e03',
@@ -1112,7 +1112,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e04',
   vorname: 'Ben',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 74
 }, {
   id: 'e05',
@@ -1122,7 +1122,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e06',
   vorname: 'Paul',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 43
 }, {
   id: 'e07',
@@ -1132,7 +1132,7 @@ const EINSENDUNGEN = [{
 }, {
   id: 'e08',
   vorname: 'Felix',
-  bildLink: 'assets/schritte-abstimmung.jpg',
+  bildLink: 'assets/schritte-abstimmung.png',
   stimmen: 61
 }];
 
@@ -1310,12 +1310,6 @@ const VOTE_FAQS = [{
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
   a: 'Die drei Bilder mit den meisten Stimmen zum Ende der Abstimmung gewinnen. Die Familien werden über die beim Upload angegebenen Kontaktdaten benachrichtigt.'
-}, {
-  q: 'Was gibt es zu gewinnen?',
-  a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.'
-}, {
-  q: 'Warum wird nur der Vorname angezeigt?',
-  a: 'Zum Schutz der Kinder veröffentlichen wir ausschließlich den Vornamen – und nur, wenn die Erziehungsberechtigten der Veröffentlichung zugestimmt haben.'
 }];
 const REVIEWS = [{
   text: 'Das beste Möbelhaus im Umkreis. Sehr freundliche Mitarbeiter – hier ist der Kunde noch König. Nur zu empfehlen!',
@@ -1514,36 +1508,19 @@ function Hero() {
       position: 'relative',
       maxWidth: 'var(--container-max)',
       margin: '0 auto',
-      padding: 'var(--space-20) var(--gutter)'
+      padding: 'var(--space-16) var(--gutter)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "hero-copy",
     style: {
       maxWidth: 620
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("h1", {
     style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8,
-      background: 'var(--baeucke-yellow)',
-      color: 'var(--neutral-800)',
-      fontWeight: 800,
-      fontSize: 'var(--text-sm)',
-      padding: '7px 16px',
-      borderRadius: 'var(--radius-pill)',
-      boxShadow: 'var(--shadow-sm)'
-    }
-  }, /*#__PURE__*/React.createElement(Ico, {
-    name: "Sparkles",
-    size: 16,
-    color: "var(--neutral-800)"
-  }), " ", EINSENDUNGEN.length, " Bilder sind eingegangen"), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      margin: '20px 0 18px',
-      fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
+      margin: '0 0 16px',
+      fontSize: 'clamp(1.875rem, 3.6vw, 2.75rem)',
       fontWeight: 900,
-      lineHeight: 1.04,
+      lineHeight: 1.08,
       letterSpacing: '-0.02em'
     }
   }, "Der gro\xDFe Malwettbewerb hat stattgefunden \u2013 jetzt z\xE4hlt", ' ', wort.split('').map((c, i) => /*#__PURE__*/React.createElement("span", {
@@ -1553,7 +1530,7 @@ function Hero() {
     }
   }, c)), "!"), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 'var(--text-xl)',
+      fontSize: 'var(--text-lg)',
       color: 'var(--text-body)',
       margin: 0
     }
@@ -1570,17 +1547,18 @@ function Hero() {
       display: 'flex',
       alignItems: 'center',
       gap: 14,
-      background: 'var(--neutral-800)',
+      background: 'var(--baeucke-yellow)',
       borderRadius: 'var(--radius-lg)',
       padding: '14px 20px',
       boxShadow: 'var(--shadow-md)'
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      width: 46,
-      height: 46,
+      width: 56,
+      height: 56,
       borderRadius: 'var(--radius-md)',
-      background: 'var(--baeucke-yellow)',
+      background: '#F9F5F5',
+      border: '2px solid var(--neutral-800)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -1588,7 +1566,7 @@ function Hero() {
     }
   }, /*#__PURE__*/React.createElement(Ico, {
     name: "Gift",
-    size: 24,
+    size: 34,
     color: "var(--neutral-800)"
   })), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -1602,13 +1580,13 @@ function Hero() {
       fontWeight: 800,
       letterSpacing: '0.1em',
       textTransform: 'uppercase',
-      color: 'var(--baeucke-yellow)'
+      color: '#363636'
     }
   }, "Ihr Gewinn f\xFCrs Abstimmen"), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 'var(--text-xl)',
       fontWeight: 900,
-      color: '#fff'
+      color: '#363636'
     }
   }, "100-\u20AC-Gutschein")))))));
 }
@@ -1815,7 +1793,7 @@ function Steps() {
       justifyContent: 'center'
     }
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/schritte-abstimmung.jpg",
+    src: "assets/schritte-abstimmung.png",
     alt: "Zwei ausgemalte Bilder des B\xE4ucke M\xF6belhauses \u2013 welches gef\xE4llt Ihnen besser?",
     style: {
       display: 'block',
@@ -2046,11 +2024,18 @@ function Stars({
 function Reviews() {
   const {
     Ico,
-    REVIEWS,
     SEAL_URL,
     GOOGLE,
     GoogleG
   } = window;
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (document.querySelector('script[src*="elfsightcdn.com/platform.js"]')) return;
+    const sk = document.createElement('script');
+    sk.src = 'https://elfsightcdn.com/platform.js';
+    sk.async = true;
+    document.body.appendChild(sk);
+  }, []);
   return /*#__PURE__*/React.createElement("section", {
     style: {
       background: '#F7F7F7'
@@ -2083,7 +2068,8 @@ function Reviews() {
       height: 110,
       width: 'auto',
       flex: 'none'
-    }
+    },
+    loading: "lazy"
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
@@ -2111,12 +2097,12 @@ function Reviews() {
       color: 'var(--text-strong)'
     }
   }, "Google", /*#__PURE__*/React.createElement("br", null), "Bewertungen")), /*#__PURE__*/React.createElement("div", {
-    className: "hide-sm",
     style: {
       width: 1,
       height: 44,
       background: 'var(--border-subtle)'
-    }
+    },
+    className: "hide-sm"
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
@@ -2161,69 +2147,10 @@ function Reviews() {
     name: "ExternalLink",
     size: 15
   }))), /*#__PURE__*/React.createElement("div", {
-    className: "step-grid",
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: 'var(--space-5)'
-    }
-  }, REVIEWS.map((r, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      background: 'var(--surface-card)',
-      border: '1px solid var(--border-subtle)',
-      borderRadius: 'var(--radius-lg)',
-      padding: 'var(--space-6)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React.createElement(Stars, null), /*#__PURE__*/React.createElement(Ico, {
-    name: "Quote",
-    size: 22,
-    color: "var(--border-default)"
-  })), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: 0,
-      color: 'var(--text-body)',
-      fontSize: 'var(--text-md)',
-      flex: 1
-    }
-  }, "\u201E", r.text, "\u201C"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      paddingTop: 4
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 34,
-      height: 34,
-      borderRadius: 'var(--radius-pill)',
-      background: 'var(--yellow-100)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 'none'
-    }
-  }, /*#__PURE__*/React.createElement(Ico, {
-    name: "User",
-    size: 18,
-    color: "var(--neutral-700)"
-  })), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 'var(--text-sm)',
-      fontWeight: 700,
-      color: 'var(--text-muted)'
-    }
-  }, r.who)))))));
+    ref: ref,
+    className: "elfsight-app-83aa18aa-0f46-4425-915f-523eec94fa20",
+    "data-elfsight-app-lazy": true
+  })));
 }
 function StoreInfo() {
   const {
@@ -4440,14 +4367,21 @@ function Stars({
 function Reviews() {
   const {
     Ico,
-    REVIEWS,
     SEAL_URL,
     GOOGLE,
     GoogleG
   } = window;
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    if (document.querySelector('script[src*="elfsightcdn.com/platform.js"]')) return;
+    const sk = document.createElement('script');
+    sk.src = 'https://elfsightcdn.com/platform.js';
+    sk.async = true;
+    document.body.appendChild(sk);
+  }, []);
   return /*#__PURE__*/React.createElement("section", {
     style: {
-      background: 'var(--surface-card)'
+      background: '#F7F7F7'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4477,14 +4411,15 @@ function Reviews() {
       height: 110,
       width: 'auto',
       flex: 'none'
-    }
+    },
+    loading: "lazy"
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
       gap: 'var(--space-6)',
       flexWrap: 'wrap',
-      background: 'var(--surface-page)',
+      background: 'var(--surface-card)',
       border: '1px solid var(--border-subtle)',
       borderRadius: 'var(--radius-lg)',
       padding: 'var(--space-5) var(--space-6)',
@@ -4555,69 +4490,10 @@ function Reviews() {
     name: "ExternalLink",
     size: 15
   }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: 'var(--space-5)'
-    },
-    className: "step-grid"
-  }, REVIEWS.map((r, i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      background: 'var(--surface-page)',
-      border: '1px solid var(--border-subtle)',
-      borderRadius: 'var(--radius-lg)',
-      padding: 'var(--space-6)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
-  }, /*#__PURE__*/React.createElement(Stars, null), /*#__PURE__*/React.createElement(Ico, {
-    name: "Quote",
-    size: 22,
-    color: "var(--border-default)"
-  })), /*#__PURE__*/React.createElement("p", {
-    style: {
-      margin: 0,
-      color: 'var(--text-body)',
-      fontSize: 'var(--text-md)',
-      flex: 1
-    }
-  }, "\u201E", r.text, "\u201C"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      paddingTop: 4
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      width: 34,
-      height: 34,
-      borderRadius: 'var(--radius-pill)',
-      background: 'var(--yellow-100)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 'none'
-    }
-  }, /*#__PURE__*/React.createElement(Ico, {
-    name: "User",
-    size: 18,
-    color: "var(--neutral-700)"
-  })), /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 'var(--text-sm)',
-      fontWeight: 700,
-      color: 'var(--text-muted)'
-    }
-  }, r.who)))))));
+    ref: ref,
+    className: "elfsight-app-83aa18aa-0f46-4425-915f-523eec94fa20",
+    "data-elfsight-app-lazy": true
+  })));
 }
 function StoreInfo() {
   const {

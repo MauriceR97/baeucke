@@ -139,7 +139,7 @@ function ArtCard({
     }
   }, url ? /*#__PURE__*/React.createElement("img", {
     src: url,
-    alt: `Ausgemaltes Bild von ${e.vorname}, $`,
+    alt: `Ausgemaltes Bild von ${e.vorname}`,
     loading: "lazy",
     style: {
       width: '100%',
@@ -916,17 +916,17 @@ function Gallery() {
     style: {
       margin: '10px 0 8px'
     }
-  }, "Alle ", rangliste.length, " Bilder"), ladeStatus === 'laedt' ? /*#__PURE__*/React.createElement("p", {
+  }, "Die Ergebnisse"), ladeStatus === 'laedt' ? /*#__PURE__*/React.createElement("p", {
     style: {
       color: 'var(--text-muted)',
       margin: 0
     }
-  }, "Die Einsendungen werden geladen \u2026") : /*#__PURE__*/React.createElement("p", {
+  }, "Die Einsendungen werden geladen \u2026") : (meineStimme || rangliste.length >= 3) && /*#__PURE__*/React.createElement("p", {
     style: {
       color: 'var(--text-muted)',
       margin: 0
     }
-  }, meineStimme ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
+  }, meineStimme ? (rangliste.length >= 3 ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Vielen Dank – Ihre Stimme ist gespeichert.') : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
     style: {
       display: 'inline-flex',
       alignItems: 'center',

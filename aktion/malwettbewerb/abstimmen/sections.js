@@ -128,36 +128,19 @@ function Hero() {
       position: 'relative',
       maxWidth: 'var(--container-max)',
       margin: '0 auto',
-      padding: 'var(--space-20) var(--gutter)'
+      padding: 'var(--space-16) var(--gutter)'
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "hero-copy",
     style: {
       maxWidth: 620
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("h1", {
     style: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 8,
-      background: 'var(--baeucke-yellow)',
-      color: 'var(--neutral-800)',
-      fontWeight: 800,
-      fontSize: 'var(--text-sm)',
-      padding: '7px 16px',
-      borderRadius: 'var(--radius-pill)',
-      boxShadow: 'var(--shadow-sm)'
-    }
-  }, /*#__PURE__*/React.createElement(Ico, {
-    name: "Sparkles",
-    size: 16,
-    color: "var(--neutral-800)"
-  }), " ", EINSENDUNGEN.length, " Bilder sind eingegangen"), /*#__PURE__*/React.createElement("h1", {
-    style: {
-      margin: '20px 0 18px',
-      fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
+      margin: '0 0 16px',
+      fontSize: 'clamp(1.875rem, 3.6vw, 2.75rem)',
       fontWeight: 900,
-      lineHeight: 1.04,
+      lineHeight: 1.08,
       letterSpacing: '-0.02em'
     }
   }, "Der gro\xDFe Malwettbewerb hat stattgefunden \u2013 jetzt z\xE4hlt", ' ', wort.split('').map((c, i) => /*#__PURE__*/React.createElement("span", {
@@ -167,7 +150,7 @@ function Hero() {
     }
   }, c)), "!"), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 'var(--text-xl)',
+      fontSize: 'var(--text-lg)',
       color: 'var(--text-body)',
       margin: 0
     }
@@ -184,17 +167,18 @@ function Hero() {
       display: 'flex',
       alignItems: 'center',
       gap: 14,
-      background: 'var(--neutral-800)',
+      background: 'var(--baeucke-yellow)',
       borderRadius: 'var(--radius-lg)',
       padding: '14px 20px',
       boxShadow: 'var(--shadow-md)'
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      width: 46,
-      height: 46,
+      width: 56,
+      height: 56,
       borderRadius: 'var(--radius-md)',
-      background: 'var(--baeucke-yellow)',
+      background: '#F9F5F5',
+      border: '2px solid var(--neutral-800)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -202,7 +186,7 @@ function Hero() {
     }
   }, /*#__PURE__*/React.createElement(Ico, {
     name: "Gift",
-    size: 24,
+    size: 34,
     color: "var(--neutral-800)"
   })), /*#__PURE__*/React.createElement("span", {
     style: {
@@ -216,13 +200,13 @@ function Hero() {
       fontWeight: 800,
       letterSpacing: '0.1em',
       textTransform: 'uppercase',
-      color: 'var(--baeucke-yellow)'
+      color: '#363636'
     }
   }, "Ihr Gewinn f\xFCrs Abstimmen"), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 'var(--text-xl)',
       fontWeight: 900,
-      color: '#fff'
+      color: '#363636'
     }
   }, "100-\u20AC-Gutschein")))))));
 }
@@ -429,7 +413,7 @@ function Steps() {
       justifyContent: 'center'
     }
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/schritte-abstimmung.jpg",
+    src: "assets/schritte-abstimmung.png",
     alt: "Zwei ausgemalte Bilder des B\xE4ucke M\xF6belhauses \u2013 welches gef\xE4llt Ihnen besser?",
     style: {
       display: 'block',
