@@ -963,58 +963,6 @@ function FAQ() {
     }
   }, f.a))))));
 }
-function AktionCTA() {
-  const {
-    Ico
-  } = window;
-  const {
-    Button
-  } = window.DesignSystem_9f5cef;
-  return /*#__PURE__*/React.createElement("section", {
-    style: {
-      background: 'var(--baeucke-yellow)'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 'var(--container-max)',
-      margin: '0 auto',
-      padding: 'var(--space-12) var(--gutter)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 'var(--space-8)',
-      flexWrap: 'wrap'
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      maxWidth: 640
-    }
-  }, /*#__PURE__*/React.createElement("h2", {
-    style: {
-      color: 'var(--neutral-800)',
-      margin: '0 0 10px'
-    }
-  }, "Noch nicht mitgemacht?"), /*#__PURE__*/React.createElement("p", {
-    style: {
-      color: 'var(--neutral-800)',
-      opacity: 0.85,
-      margin: 0,
-      fontSize: 'var(--text-lg)'
-    }
-  }, "Alle Infos zum Malwettbewerb, das Ausmalbild zum Herunterladen und das Formular zum Einsenden finden Sie auf der Aktionsseite.")), /*#__PURE__*/React.createElement("a", {
-    href: "https://www.baeucke-moebel.de/aktion/malwettbewerb/teilnahme/",
-    style: {
-      textDecoration: 'none'
-    }
-  }, /*#__PURE__*/React.createElement(Button, {
-    variant: "ink",
-    size: "lg",
-    iconRight: /*#__PURE__*/React.createElement(Ico, {
-      name: "ArrowRight",
-      size: 18
-    })
-  }, "Zur Aktionsseite"))));
-}
 function Footer() {
   const {
     Ico
@@ -1126,6 +1074,5 @@ Object.assign(window, {
   Reviews,
   StoreInfo,
   FAQ,
-  AktionCTA,
   Footer
 });
