@@ -27,6 +27,13 @@ const DATEN_URL = '';        // Bilder + Stimmenstand laden
 Solange die Felder leer sind, laufen die Formulare im Testmodus (Validierung und
 Erfolgsmeldung, ohne zu speichern).
 
+## Galerie-Zustände
+
+Die Abstimmungsseite zeigt, solange kein Bild freigegeben ist, ein Platzhalter-Feld
+(„Hier erscheinen bald die eingereichten Werke“). Es verschwindet automatisch, sobald
+in der Tabelle das erste Bild auf `Freigabe = Ja` steht. Eine leere Tabelle ist kein
+Fehler – die rote Warnung erscheint nur, wenn die Tabelle wirklich nicht erreichbar ist.
+
 ## Datenschutz
 
 Die Google-Tabelle bleibt **privat** und darf **nicht** über „Datei → Im Web

@@ -963,7 +963,44 @@ function Gallery() {
     name: "Gift",
     size: 16,
     color: "var(--neutral-800)"
-  }), " Unter allen Abstimmenden verlosen wir einen 100-\u20AC-Gutschein")), /*#__PURE__*/React.createElement("div", {
+  }), " Unter allen Abstimmenden verlosen wir einen 100-\u20AC-Gutschein")), ladeStatus !== 'laedt' && rangliste.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: '2px dashed var(--neutral-300)',
+      borderRadius: 'var(--radius-xl)',
+      background: 'var(--surface-card)',
+      padding: 'var(--space-16) var(--space-8)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      gap: 'var(--space-4)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 72,
+      height: 72,
+      borderRadius: 'var(--radius-pill)',
+      background: 'var(--yellow-100)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(Ico, {
+    name: "Palette",
+    size: 34,
+    color: "var(--neutral-800)"
+  })), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      margin: 0,
+      fontSize: 'var(--text-h3)'
+    }
+  }, "Hier erscheinen bald die eingereichten Werke"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      color: 'var(--text-body)',
+      maxWidth: 460
+    }
+  }, "Die Kinder malen noch flei\xDFig. Sobald die ersten Bilder eingegangen und freigegeben sind, k\xF6nnen Sie hier f\xFCr Ihr Lieblingsbild abstimmen.")), /*#__PURE__*/React.createElement("div", {
     className: "top-grid",
     style: {
       display: 'grid',
@@ -972,7 +1009,7 @@ function Gallery() {
       alignItems: 'start',
       marginBottom: 'var(--space-10)'
     }
-  }, top3.map((e, i) => /*#__PURE__*/React.createElement(ArtCard, {
+  }, top3.length > 0 && top3.map((e, i) => /*#__PURE__*/React.createElement(ArtCard, {
     key: e.id,
     e: e,
     platz: i + 1,

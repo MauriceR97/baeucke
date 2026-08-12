@@ -42,47 +42,11 @@ const DATEN_URL = 'https://script.google.com/macros/s/AKfycbzbBBQDIVeypku4N6a7r5
  *
  * Ein normaler Bild-Link (z. B. vom eigenen Server) wird unverändert genutzt.
  */
-const EINSENDUNGEN = [{
-  id: 'e01',
-  vorname: 'Mia',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 128
-}, {
-  id: 'e02',
-  vorname: 'Jonas',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 96
-}, {
-  id: 'e03',
-  vorname: 'Emilia',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 152
-}, {
-  id: 'e04',
-  vorname: 'Ben',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 74
-}, {
-  id: 'e05',
-  vorname: 'Lina',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 111
-}, {
-  id: 'e06',
-  vorname: 'Paul',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 43
-}, {
-  id: 'e07',
-  vorname: 'Sophie',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 88
-}, {
-  id: 'e08',
-  vorname: 'Felix',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 61
-}];
+const EINSENDUNGEN = [
+  // Beispieleinträge – bei eingerichteter DATEN_URL kommen die echten Werke
+  // aus der Google-Tabelle. Zum Testen ohne Tabelle hier Einträge ergänzen:
+  // { id: 'e01', vorname: 'Mia', bildLink: 'https://drive.google.com/…', stimmen: 0 }
+];
 
 /* Wandelt einen Google-Drive-Link in eine direkt anzeigbare Bildadresse um. */
 function bildUrl(link) {
@@ -109,7 +73,7 @@ async function ladeEinsendungen() {
     } catch (netzfehler) {
       daten = await ladePerJsonp(DATEN_URL); // Ausweichweg, falls fetch blockiert
     }
-    if (!daten || !daten.ok || !Array.isArray(daten.bilder) || !daten.bilder.length) return null;
+    if (!daten || !daten.ok || !Array.isArray(daten.bilder)) return null;
     return daten.bilder.map((b, i) => ({
       id: String(b.id || 'e' + String(i + 1).padStart(2, '0')),
       vorname: String(b.vorname || '').trim(),

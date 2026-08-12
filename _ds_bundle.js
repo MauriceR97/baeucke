@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"af86b416ba64","campaigns/abstimmung/lib.js":"3e392c67e51d","campaigns/abstimmung/sections.js":"1c54c6e4dd42","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"3f6b5d81c698","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"dadf48eeeaea","campaigns/abstimmung/lib.js":"a28388fbad4d","campaigns/abstimmung/sections.js":"1c54c6e4dd42","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"3f6b5d81c698","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -997,7 +997,44 @@ function Gallery() {
     name: "Gift",
     size: 16,
     color: "var(--neutral-800)"
-  }), " Unter allen Abstimmenden verlosen wir einen 100-\u20AC-Gutschein")), /*#__PURE__*/React.createElement("div", {
+  }), " Unter allen Abstimmenden verlosen wir einen 100-\u20AC-Gutschein")), ladeStatus !== 'laedt' && rangliste.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      border: '2px dashed var(--neutral-300)',
+      borderRadius: 'var(--radius-xl)',
+      background: 'var(--surface-card)',
+      padding: 'var(--space-16) var(--space-8)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      gap: 'var(--space-4)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 72,
+      height: 72,
+      borderRadius: 'var(--radius-pill)',
+      background: 'var(--yellow-100)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(Ico, {
+    name: "Palette",
+    size: 34,
+    color: "var(--neutral-800)"
+  })), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      margin: 0,
+      fontSize: 'var(--text-h3)'
+    }
+  }, "Hier erscheinen bald die eingereichten Werke"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      color: 'var(--text-body)',
+      maxWidth: 460
+    }
+  }, "Die Kinder malen noch flei\xDFig. Sobald die ersten Bilder eingegangen und freigegeben sind, k\xF6nnen Sie hier f\xFCr Ihr Lieblingsbild abstimmen.")), /*#__PURE__*/React.createElement("div", {
     className: "top-grid",
     style: {
       display: 'grid',
@@ -1006,7 +1043,7 @@ function Gallery() {
       alignItems: 'start',
       marginBottom: 'var(--space-10)'
     }
-  }, top3.map((e, i) => /*#__PURE__*/React.createElement(ArtCard, {
+  }, top3.length > 0 && top3.map((e, i) => /*#__PURE__*/React.createElement(ArtCard, {
     key: e.id,
     e: e,
     platz: i + 1,
@@ -1094,47 +1131,11 @@ const DATEN_URL = 'https://script.google.com/macros/s/AKfycbzbBBQDIVeypku4N6a7r5
  *
  * Ein normaler Bild-Link (z. B. vom eigenen Server) wird unverändert genutzt.
  */
-const EINSENDUNGEN = [{
-  id: 'e01',
-  vorname: 'Mia',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 128
-}, {
-  id: 'e02',
-  vorname: 'Jonas',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 96
-}, {
-  id: 'e03',
-  vorname: 'Emilia',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 152
-}, {
-  id: 'e04',
-  vorname: 'Ben',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 74
-}, {
-  id: 'e05',
-  vorname: 'Lina',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 111
-}, {
-  id: 'e06',
-  vorname: 'Paul',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 43
-}, {
-  id: 'e07',
-  vorname: 'Sophie',
-  bildLink: '../malwettbewerb/assets/ausmalbild-beispiel.png',
-  stimmen: 88
-}, {
-  id: 'e08',
-  vorname: 'Felix',
-  bildLink: 'assets/schritte-abstimmung.png',
-  stimmen: 61
-}];
+const EINSENDUNGEN = [
+  // Beispieleinträge – bei eingerichteter DATEN_URL kommen die echten Werke
+  // aus der Google-Tabelle. Zum Testen ohne Tabelle hier Einträge ergänzen:
+  // { id: 'e01', vorname: 'Mia', bildLink: 'https://drive.google.com/…', stimmen: 0 }
+];
 
 /* Wandelt einen Google-Drive-Link in eine direkt anzeigbare Bildadresse um. */
 function bildUrl(link) {
@@ -1161,7 +1162,7 @@ async function ladeEinsendungen() {
     } catch (netzfehler) {
       daten = await ladePerJsonp(DATEN_URL); // Ausweichweg, falls fetch blockiert
     }
-    if (!daten || !daten.ok || !Array.isArray(daten.bilder) || !daten.bilder.length) return null;
+    if (!daten || !daten.ok || !Array.isArray(daten.bilder)) return null;
     return daten.bilder.map((b, i) => ({
       id: String(b.id || 'e' + String(i + 1).padStart(2, '0')),
       vorname: String(b.vorname || '').trim(),
