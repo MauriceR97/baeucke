@@ -695,11 +695,11 @@ function Steps() {
     }
   }, /*#__PURE__*/React.createElement("img", {
     src: "assets/schritte-kinder.jpg",
-    alt: "Zwei Kinder zeigen stolz ihre bunt ausgemalten Bilder des B\xE4ucke M\xF6belhauses",
+    alt: "Ein M\xE4dchen malt am K\xFCchentisch das B\xE4ucke-Ausmalbild mit Buntstiften an",
     style: {
       display: 'block',
       width: '100%',
-      maxWidth: 598,
+      maxWidth: 460,
       height: 'auto',
       borderRadius: 'var(--radius-xl)',
       boxShadow: 'var(--shadow-lg)',
