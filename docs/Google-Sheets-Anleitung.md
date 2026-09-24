@@ -62,13 +62,13 @@ die ID aus der Adresse kopieren:
 Dieselbe `/exec`-Adresse kommt an drei Stellen:
 
 ```js
-// aktion/malwettbewerb/teilnahme/UploadForm.jsx
+// aktion/malwettbewerb/teilnahme/UploadForm.js
 const SHEET_ENDPOINT = '';   // Bild-Einsendungen speichern
 
-// aktion/malwettbewerb/abstimmen/Gallery.jsx
+// aktion/malwettbewerb/abstimmen/Gallery.js
 const VOTE_ENDPOINT = '';    // Stimmen entgegennehmen
 
-// aktion/malwettbewerb/abstimmen/lib.jsx
+// aktion/malwettbewerb/abstimmen/lib.js
 const DATEN_URL = '';        // Bilder + Stimmenstand laden
 ```
 

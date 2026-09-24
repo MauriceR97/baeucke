@@ -54,7 +54,7 @@ function Header() {
       fontWeight: 700,
       color: 'var(--text-muted)'
     }
-  }, "Einsendeschluss 30.09.2026"), /*#__PURE__*/React.createElement(Button, {
+  }, "Einsendeschluss 31.10.2026"), /*#__PURE__*/React.createElement(Button, {
     className: "baeucke-cta",
     variant: "primary",
     size: "sm",
@@ -383,7 +383,7 @@ function Countdown() {
   const {
     Ico
   } = window;
-  const target = new Date('2026-09-30T23:59:59').getTime();
+  const target = new Date('2026-10-31T23:59:59').getTime();
   const calc = () => {
     const d = Math.max(0, target - Date.now());
     return {
@@ -496,7 +496,7 @@ function Prizes() {
       color: 'var(--text-body)',
       fontSize: 'var(--text-lg)'
     }
-  }, "Ihr Kind malt unser M\xF6belhaus so bunt aus, wie es m\xF6chte \u2013 und Sie laden das fertige Bild bis zum ", /*#__PURE__*/React.createElement("b", null, "30.09.2026"), " hier hoch. Unter allen Einsendungen vergeben wir drei B\xE4ucke-Warengutscheine.")), /*#__PURE__*/React.createElement("div", {
+  }, "Ihr Kind malt unser M\xF6belhaus so bunt aus, wie es m\xF6chte \u2013 und Sie laden das fertige Bild bis zum ", /*#__PURE__*/React.createElement("b", null, "31.10.2026"), " hier hoch. Unter allen Einsendungen vergeben wir drei B\xE4ucke-Warengutscheine.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',

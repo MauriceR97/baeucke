@@ -310,7 +310,7 @@ function UploadForm() {
     style: {
       color: 'var(--text-strong)'
     }
-  }, v.child), " ist bei uns eingegangen. Nach dem Einsendeschluss am 30.09.2026 benachrichtigen wir die Gewinner \xFCber Ihre angegebenen Kontaktdaten. Wir dr\xFCcken die Daumen!"), /*#__PURE__*/React.createElement("div", {
+  }, v.child), " ist bei uns eingegangen. Die Abstimmung über die Bilder läuft vom 01.11. bis 14.11.2026 – nach Ende der Abstimmung benachrichtigen wir die Gewinner \xFCber Ihre angegebenen Kontaktdaten. Wir dr\xFCcken die Daumen!"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 22
     }
@@ -345,12 +345,14 @@ function UploadForm() {
     }
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Vorname des Kindes",
+    name: "kind-vorname", autoComplete: "off",
     placeholder: "z. B. Mia",
     value: v.child,
     onChange: set('child'),
     error: errors.child
   }), /*#__PURE__*/React.createElement(Input, {
     label: "Ihr Name (Erziehungsberechtigte:r)",
+    name: "name", autoComplete: "name",
     placeholder: "Vor- und Nachname",
     value: v.parent,
     onChange: set('parent'),
@@ -364,6 +366,7 @@ function UploadForm() {
     className: "f-row"
   }, /*#__PURE__*/React.createElement(Input, {
     label: "E-Mail",
+    name: "email", autoComplete: "email",
     type: "email",
     placeholder: "ihre@email.de",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
@@ -375,6 +378,7 @@ function UploadForm() {
     error: errors.email
   }), /*#__PURE__*/React.createElement(Input, {
     label: "Telefon",
+    name: "tel", type: "tel", autoComplete: "tel",
     placeholder: "0151 \u2026",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
       name: "Phone",

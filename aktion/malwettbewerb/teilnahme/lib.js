@@ -89,7 +89,7 @@ const STEPS = [{
   icon: 'Upload',
   title: 'Bild hochladen',
   text: 'Laden Sie ein Foto oder einen Scan des fertig ausgemalten Bildes bis spätestens ',
-  textStark: '30.09.2026',
+  textStark: '31.10.2026',
   textEnde: ' hier hoch.'
 }, {
   n: '3',
@@ -103,7 +103,7 @@ const FAQS = [{
   a: 'Alle Kinder bis einschließlich 12 Jahre. Die Teilnahme ist kostenlos.'
 }, {
   q: 'Bis wann kann das Bild eingereicht werden?',
-  a: 'Einsendeschluss ist der 30.09.2026. Bilder, die später hochgeladen werden, können leider nicht berücksichtigt werden.'
+  a: 'Einsendeschluss ist der 31.10.2026. Bilder, die später hochgeladen werden, können leider nicht berücksichtigt werden.'
 }, {
   q: 'Wie reichen wir das Bild ein?',
   a: 'Ein Elternteil oder eine erziehungsberechtigte Person lädt ein Foto oder einen Scan des fertig ausgemalten Bildes über das Formular auf dieser Seite hoch.'
@@ -112,7 +112,7 @@ const FAQS = [{
   a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.'
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
-  a: 'Alle eingereichten Bilder werden veröffentlicht und können anschließend online bewertet werden. Die drei Bilder mit den meisten Stimmen gewinnen – gewertet wird der Stand zum Ende der Abstimmung.'
+  a: 'Nach dem Einsendeschluss werden alle freigegebenen Bilder unter baeucke-moebel.de/aktion/malwettbewerb/abstimmen veröffentlicht. Dort kann bis zum 14.11.2026 abgestimmt werden. Die drei Bilder mit den meisten Stimmen gewinnen.'
 }, {
   q: 'Wie werden die Gewinner benachrichtigt?',
   a: 'Die Gewinner werden nach dem Einsendeschluss per E-Mail oder Telefon über die angegebenen Kontaktdaten informiert.'

@@ -15,9 +15,9 @@
  * 3. Bereitstellen → Neue Bereitstellung → Web-App
  *      Ausführen als: Ich     ·     Zugriff: Jeder
  * 4. Die /exec-Adresse eintragen in:
- *      teilnahme/UploadForm.jsx  →  SHEET_ENDPOINT
- *      abstimmen/Gallery.jsx     →  VOTE_ENDPOINT
- *      abstimmen/lib.jsx         →  DATEN_URL
+ *      teilnahme/UploadForm.js   →  SHEET_ENDPOINT
+ *      abstimmen/Gallery.js      →  VOTE_ENDPOINT
+ *      abstimmen/lib.js          →  DATEN_URL
  *
  * ---------------------------------------------------------------------------
  * WICHTIG ZUM DATENSCHUTZ

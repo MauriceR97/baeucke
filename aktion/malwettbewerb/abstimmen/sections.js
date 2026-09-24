@@ -66,7 +66,7 @@ function Header() {
       fontWeight: 700,
       color: 'var(--text-muted)'
     }
-  }, "Abstimmung bis 31.10.2026"), /*#__PURE__*/React.createElement(Button, {
+  }, "Abstimmung bis 14.11.2026"), /*#__PURE__*/React.createElement(Button, {
     className: "cta-desktop",
     variant: "primary",
     onClick: () => scrollToId('galerie')
@@ -226,7 +226,7 @@ function Countdown() {
   const {
     Ico
   } = window;
-  const target = new Date('2026-10-31T23:59:59').getTime();
+  const target = new Date('2026-11-14T23:59:59').getTime();
   const calc = () => {
     const d = Math.max(0, target - Date.now());
     return {

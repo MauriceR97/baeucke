@@ -447,18 +447,21 @@ function VoteModal({
     }
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Vorname",
+    name: "given-name", autoComplete: "given-name",
     placeholder: "Vorname",
     value: v.vorname,
     onChange: set('vorname'),
     error: errors.vorname
   }), /*#__PURE__*/React.createElement(Input, {
     label: "Nachname",
+    name: "family-name", autoComplete: "family-name",
     placeholder: "Nachname",
     value: v.nachname,
     onChange: set('nachname'),
     error: errors.nachname
   })), /*#__PURE__*/React.createElement(Input, {
     label: "E-Mail",
+    name: "email", autoComplete: "email",
     type: "email",
     placeholder: "ihre@email.de",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
@@ -477,6 +480,7 @@ function VoteModal({
     }
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Telefon",
+    name: "tel", type: "tel", autoComplete: "tel",
     placeholder: "0151 \u2026",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
       name: "Phone",
@@ -487,6 +491,7 @@ function VoteModal({
     error: errors.telefon
   }), /*#__PURE__*/React.createElement(Input, {
     label: "PLZ",
+    name: "postal-code", autoComplete: "postal-code",
     placeholder: "37154",
     inputMode: "numeric",
     maxLength: 5,

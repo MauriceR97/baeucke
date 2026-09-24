@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"dadf48eeeaea","campaigns/abstimmung/lib.js":"a28388fbad4d","campaigns/abstimmung/sections.js":"81dd0b56e949","campaigns/malwettbewerb/UploadForm.js":"c7be1c671eb7","campaigns/malwettbewerb/lib.js":"62f0b94299f2","campaigns/malwettbewerb/sections.js":"3f6b5d81c698","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":4,"namespace":"DesignSystem_9f5cef","components":[{"name":"ProductCard","sourcePath":"components/commerce/ProductCard.jsx"},{"name":"Badge","sourcePath":"components/core/Badge.jsx"},{"name":"Button","sourcePath":"components/core/Button.jsx"},{"name":"Card","sourcePath":"components/core/Card.jsx"},{"name":"IconButton","sourcePath":"components/core/IconButton.jsx"},{"name":"Input","sourcePath":"components/core/Input.jsx"},{"name":"Tag","sourcePath":"components/core/Tag.jsx"}],"sourceHashes":{"campaigns/abstimmung/Gallery.js":"2c42170bcd05","campaigns/abstimmung/lib.js":"534115fcca14","campaigns/abstimmung/sections.js":"f00c04524937","campaigns/malwettbewerb/UploadForm.js":"84a5f4f1fd95","campaigns/malwettbewerb/lib.js":"4ce7f0ae4766","campaigns/malwettbewerb/sections.js":"1bd45c30c98d","components/commerce/ProductCard.jsx":"a134d609d229","components/core/Badge.jsx":"266013e364a3","components/core/Button.jsx":"b7271761dd74","components/core/Card.jsx":"8c4a13ab2a02","components/core/IconButton.jsx":"f7a8c88affda","components/core/Input.jsx":"c40ac230913b","components/core/Tag.jsx":"511d79e47c18","ui_kits/website/Footer.jsx":"53e929c3cf3d","ui_kits/website/Header.jsx":"56710cc7ca4c","ui_kits/website/Hero.jsx":"5d96c6096389","ui_kits/website/ProductRail.jsx":"df268044a528","ui_kits/website/Screens.jsx":"5cd63755bb13","ui_kits/website/Sections.jsx":"cb67be2bbbac","ui_kits/website/lib.jsx":"c97fb5014a10"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -459,18 +459,24 @@ function VoteModal({
     }
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Vorname",
+    name: "given-name",
+    autoComplete: "given-name",
     placeholder: "Vorname",
     value: v.vorname,
     onChange: set('vorname'),
     error: errors.vorname
   }), /*#__PURE__*/React.createElement(Input, {
     label: "Nachname",
+    name: "family-name",
+    autoComplete: "family-name",
     placeholder: "Nachname",
     value: v.nachname,
     onChange: set('nachname'),
     error: errors.nachname
   })), /*#__PURE__*/React.createElement(Input, {
     label: "E-Mail",
+    name: "email",
+    autoComplete: "email",
     type: "email",
     placeholder: "ihre@email.de",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
@@ -489,6 +495,9 @@ function VoteModal({
     }
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Telefon",
+    name: "tel",
+    type: "tel",
+    autoComplete: "tel",
     placeholder: "0151 \u2026",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
       name: "Phone",
@@ -499,6 +508,8 @@ function VoteModal({
     error: errors.telefon
   }), /*#__PURE__*/React.createElement(Input, {
     label: "PLZ",
+    name: "postal-code",
+    autoComplete: "postal-code",
     placeholder: "37154",
     inputMode: "numeric",
     maxLength: 5,
@@ -1307,7 +1318,7 @@ const VOTE_FAQS = [{
   a: 'Nur so können wir Sie benachrichtigen, wenn Sie den 100-€-Gutschein gewonnen haben, und sicherstellen, dass jede Person einmal abstimmt. Ihre Daten werden ausschließlich für die Abstimmung und die Verlosung verwendet.'
 }, {
   q: 'Bis wann kann abgestimmt werden?',
-  a: 'Die Abstimmung läuft bis zum 31.10.2026. Danach werden die Stimmen ausgezählt.'
+  a: 'Die Abstimmung läuft bis zum 14.11.2026. Danach werden die Stimmen ausgezählt.'
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
   a: 'Die drei Bilder mit den meisten Stimmen zum Ende der Abstimmung gewinnen. Die Familien werden über die beim Upload angegebenen Kontaktdaten benachrichtigt.'
@@ -1450,7 +1461,7 @@ function Header() {
       fontWeight: 700,
       color: 'var(--text-muted)'
     }
-  }, "Abstimmung bis 31.10.2026"), /*#__PURE__*/React.createElement(Button, {
+  }, "Abstimmung bis 14.11.2026"), /*#__PURE__*/React.createElement(Button, {
     className: "cta-desktop",
     variant: "primary",
     onClick: () => scrollToId('galerie')
@@ -1610,7 +1621,7 @@ function Countdown() {
   const {
     Ico
   } = window;
-  const target = new Date('2026-10-31T23:59:59').getTime();
+  const target = new Date('2026-11-14T23:59:59').getTime();
   const calc = () => {
     const d = Math.max(0, target - Date.now());
     return {
@@ -2880,7 +2891,7 @@ function UploadForm() {
     style: {
       color: 'var(--text-strong)'
     }
-  }, v.child), " ist bei uns eingegangen. Nach dem Einsendeschluss am 30.09.2026 benachrichtigen wir die Gewinner \xFCber Ihre angegebenen Kontaktdaten. Wir dr\xFCcken die Daumen!"), /*#__PURE__*/React.createElement("div", {
+  }, v.child), " ist bei uns eingegangen. Die Abstimmung über die Bilder läuft vom 01.11. bis 14.11.2026 – nach Ende der Abstimmung benachrichtigen wir die Gewinner \xFCber Ihre angegebenen Kontaktdaten. Wir dr\xFCcken die Daumen!"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 22
     }
@@ -2915,12 +2926,16 @@ function UploadForm() {
     }
   }, /*#__PURE__*/React.createElement(Input, {
     label: "Vorname des Kindes",
+    name: "kind-vorname",
+    autoComplete: "off",
     placeholder: "z. B. Mia",
     value: v.child,
     onChange: set('child'),
     error: errors.child
   }), /*#__PURE__*/React.createElement(Input, {
     label: "Ihr Name (Erziehungsberechtigte:r)",
+    name: "name",
+    autoComplete: "name",
     placeholder: "Vor- und Nachname",
     value: v.parent,
     onChange: set('parent'),
@@ -2934,6 +2949,8 @@ function UploadForm() {
     className: "f-row"
   }, /*#__PURE__*/React.createElement(Input, {
     label: "E-Mail",
+    name: "email",
+    autoComplete: "email",
     type: "email",
     placeholder: "ihre@email.de",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
@@ -2945,6 +2962,9 @@ function UploadForm() {
     error: errors.email
   }), /*#__PURE__*/React.createElement(Input, {
     label: "Telefon",
+    name: "tel",
+    type: "tel",
+    autoComplete: "tel",
     placeholder: "0151 \u2026",
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
       name: "Phone",
@@ -3210,7 +3230,7 @@ const STEPS = [{
   icon: 'Upload',
   title: 'Bild hochladen',
   text: 'Laden Sie ein Foto oder einen Scan des fertig ausgemalten Bildes bis spätestens ',
-  textStark: '30.09.2026',
+  textStark: '31.10.2026',
   textEnde: ' hier hoch.'
 }, {
   n: '3',
@@ -3224,7 +3244,7 @@ const FAQS = [{
   a: 'Alle Kinder bis einschließlich 12 Jahre. Die Teilnahme ist kostenlos.'
 }, {
   q: 'Bis wann kann das Bild eingereicht werden?',
-  a: 'Einsendeschluss ist der 30.09.2026. Bilder, die später hochgeladen werden, können leider nicht berücksichtigt werden.'
+  a: 'Einsendeschluss ist der 31.10.2026. Bilder, die später hochgeladen werden, können leider nicht berücksichtigt werden.'
 }, {
   q: 'Wie reichen wir das Bild ein?',
   a: 'Ein Elternteil oder eine erziehungsberechtigte Person lädt ein Foto oder einen Scan des fertig ausgemalten Bildes über das Formular auf dieser Seite hoch.'
@@ -3233,7 +3253,7 @@ const FAQS = [{
   a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.'
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
-  a: 'Alle eingereichten Bilder werden veröffentlicht und können anschließend online bewertet werden. Die drei Bilder mit den meisten Stimmen gewinnen – gewertet wird der Stand zum Ende der Abstimmung.'
+  a: 'Nach dem Einsendeschluss werden alle freigegebenen Bilder unter baeucke-moebel.de/aktion/malwettbewerb/abstimmung veröffentlicht. Dort kann bis zum 14.11.2026 abgestimmt werden. Die drei Bilder mit den meisten Stimmen gewinnen.'
 }, {
   q: 'Wie werden die Gewinner benachrichtigt?',
   a: 'Die Gewinner werden nach dem Einsendeschluss per E-Mail oder Telefon über die angegebenen Kontaktdaten informiert.'
@@ -3352,7 +3372,7 @@ function Header() {
       fontWeight: 700,
       color: 'var(--text-muted)'
     }
-  }, "Einsendeschluss 30.09.2026"), /*#__PURE__*/React.createElement(Button, {
+  }, "Einsendeschluss 31.10.2026"), /*#__PURE__*/React.createElement(Button, {
     className: "baeucke-cta",
     variant: "primary",
     size: "sm",
@@ -3681,7 +3701,7 @@ function Countdown() {
   const {
     Ico
   } = window;
-  const target = new Date('2026-09-30T23:59:59').getTime();
+  const target = new Date('2026-10-31T23:59:59').getTime();
   const calc = () => {
     const d = Math.max(0, target - Date.now());
     return {
@@ -3794,7 +3814,7 @@ function Prizes() {
       color: 'var(--text-body)',
       fontSize: 'var(--text-lg)'
     }
-  }, "Ihr Kind malt unser M\xF6belhaus so bunt aus, wie es m\xF6chte \u2013 und Sie laden das fertige Bild bis zum ", /*#__PURE__*/React.createElement("b", null, "30.09.2026"), " hier hoch. Unter allen Einsendungen vergeben wir drei B\xE4ucke-Warengutscheine.")), /*#__PURE__*/React.createElement("div", {
+  }, "Ihr Kind malt unser M\xF6belhaus so bunt aus, wie es m\xF6chte \u2013 und Sie laden das fertige Bild bis zum ", /*#__PURE__*/React.createElement("b", null, "31.10.2026"), " hier hoch. Unter allen Einsendungen vergeben wir drei B\xE4ucke-Warengutscheine.")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',
@@ -3993,11 +4013,11 @@ function Steps() {
     }
   }, /*#__PURE__*/React.createElement("img", {
     src: "assets/schritte-kinder.jpg",
-    alt: "Zwei Kinder zeigen stolz ihre bunt ausgemalten Bilder des B\xE4ucke M\xF6belhauses",
+    alt: "Ein M\xE4dchen malt am K\xFCchentisch das B\xE4ucke-Ausmalbild mit Buntstiften an",
     style: {
       display: 'block',
       width: '100%',
-      maxWidth: 598,
+      maxWidth: 460,
       height: 'auto',
       borderRadius: 'var(--radius-xl)',
       boxShadow: 'var(--shadow-lg)',

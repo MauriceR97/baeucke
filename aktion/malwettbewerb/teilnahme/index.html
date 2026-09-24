@@ -48,6 +48,12 @@
   }
 
   main section h2 { font-size: 35px; }
+  /* Formularfelder: Fokus-Ring nur am Rahmen, nicht zusätzlich am inneren Feld */
+  form input:focus-visible, form select:focus-visible, form textarea:focus-visible { box-shadow: none !important; outline: none !important; border-radius: 0 !important; }
+  form textarea:focus { border-color: var(--neutral-700) !important; box-shadow: var(--shadow-focus) !important; border-radius: var(--radius-md) !important; }
+  /* Browser-Autofill: gelben/blauen Hintergrund neutralisieren */
+  input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 1000px #fff inset !important; -webkit-text-fill-color: var(--text-body) !important; transition: background-color 9999s ease-out 0s; }
+
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
