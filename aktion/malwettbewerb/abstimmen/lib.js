@@ -49,13 +49,13 @@ const EINSENDUNGEN = [
 ];
 
 /* Wandelt einen Google-Drive-Link in eine direkt anzeigbare Bildadresse um. */
-function bildUrl(link) {
+function bildUrl(link, breite) {
   if (!link) return '';
   const s = String(link).trim();
   const m = s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) // .../file/d/ID/view
   || s.match(/[?&]id=([a-zA-Z0-9_-]+)/) // ...open?id=ID
   || s.match(/\/d\/([a-zA-Z0-9_-]+)/); // .../d/ID
-  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200` : s;
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${breite || 1200}` : s;
 }
 
 /* Lädt die Einsendungen über das Apps Script (nur öffentliche Felder).

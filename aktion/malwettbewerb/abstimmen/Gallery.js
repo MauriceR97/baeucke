@@ -111,7 +111,8 @@ function ArtCard({
   const {
     Button
   } = window.DesignSystem_9f5cef;
-  const url = bildUrl(e.bildLink);
+  const url = bildUrl(e.bildLink, gross ? 800 : 500);
+  const [geladen, setGeladen] = React.useState(false);
   const gewaehlt = meineStimme === e.id;
   const medal = ['#F7931E', '#B8B8B8', '#D89C5E'][platz - 1];
   return /*#__PURE__*/React.createElement("div", {
@@ -140,12 +141,17 @@ function ArtCard({
   }, url ? /*#__PURE__*/React.createElement("img", {
     src: url,
     alt: `Ausgemaltes Bild von ${e.vorname}`,
-    loading: "lazy",
+    loading: gross ? "eager" : "lazy",
+    fetchpriority: gross ? "high" : "low",
+    decoding: "async",
+    onLoad: () => setGeladen(true),
     style: {
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      display: 'block'
+      display: 'block',
+      opacity: geladen ? 1 : 0,
+      transition: 'opacity .35s ease'
     }
   }) : /*#__PURE__*/React.createElement("span", {
     style: {
@@ -373,7 +379,7 @@ function VoteModal({
       alignItems: 'center'
     }
   }, bildUrl(bild.bildLink) && /*#__PURE__*/React.createElement("img", {
-    src: bildUrl(bild.bildLink),
+    src: bildUrl(bild.bildLink, 160),
     alt: "",
     style: {
       width: 64,
@@ -720,7 +726,7 @@ function Lightbox({
       position: 'relative'
     }
   }, /*#__PURE__*/React.createElement("img", {
-    src: bildUrl(e.bildLink),
+    src: bildUrl(e.bildLink, 1600),
     onError: (ev) => { const t = ev.currentTarget; if (t.dataset.fb) return; t.dataset.fb = '1'; t.style.display = 'none'; const p = t.parentElement; if (p) { p.style.background = '#EDEAE3'; p.style.display = 'flex'; p.style.alignItems = 'center'; p.style.justifyContent = 'center'; p.style.minHeight = '200px'; if (!p.querySelector('.bild-fehlt')) { const s = document.createElement('span'); s.className = 'bild-fehlt'; s.textContent = 'Bild nicht verfügbar'; s.style.cssText = 'font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9A9A97'; p.appendChild(s); } } },
     alt: `Ausgemaltes Bild von ${e.vorname}`,
     style: {
@@ -875,6 +881,7 @@ function Gallery() {
     ladeStatus
   } = window.__voting;
   const [lightbox, setLightbox] = React.useState(null);
+  const [anzahl, setAnzahl] = React.useState(12);
   const top3 = rangliste.slice(0, 3);
   const rest = rangliste.slice(3);
   const anfrageBild = anfrageFuer ? rangliste.find(e => e.id === anfrageFuer) : null;
@@ -1029,14 +1036,24 @@ function Gallery() {
       gridTemplateColumns: 'repeat(4, 1fr)',
       gap: 'var(--space-5)'
     }
-  }, rest.map(e => /*#__PURE__*/React.createElement(ArtCard, {
+  }, rest.slice(0, anzahl).map(e => /*#__PURE__*/React.createElement(ArtCard, {
     key: e.id,
     e: e,
     platz: null,
     meineStimme: meineStimme,
     abstimmen: abstimmen,
     onZoom: setLightbox
-  })))), lightbox && /*#__PURE__*/React.createElement(Lightbox, {
+  }))), rest.length > anzahl && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: 'var(--space-8)'
+    }
+  }, /*#__PURE__*/React.createElement(window.DesignSystem_9f5cef.Button, {
+    variant: "outline",
+    size: "lg",
+    onClick: () => setAnzahl(n => n + 12)
+  }, "Weitere Bilder anzeigen (", rest.length - anzahl, ")"))), lightbox && /*#__PURE__*/React.createElement(Lightbox, {
     e: lightbox,
     onClose: () => setLightbox(null),
     meineStimme: meineStimme,
