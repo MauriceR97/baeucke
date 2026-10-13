@@ -66,7 +66,7 @@ function Header() {
       fontWeight: 700,
       color: 'var(--text-muted)'
     }
-  }, "Abstimmung bis 14.11.2026"), /*#__PURE__*/React.createElement(Button, {
+  }, "Abstimmung ab sofort bis 14.11.2026"), /*#__PURE__*/React.createElement(Button, {
     className: "cta-desktop",
     variant: "primary",
     onClick: () => scrollToId('galerie')

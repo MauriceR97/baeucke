@@ -218,7 +218,7 @@ const VOTE_FAQS = [{
   a: 'Nur so können wir Sie benachrichtigen, wenn Sie den 100-€-Gutschein gewonnen haben, und sicherstellen, dass jede Person einmal abstimmt. Ihre Daten werden ausschließlich für die Abstimmung und die Verlosung verwendet.'
 }, {
   q: 'Bis wann kann abgestimmt werden?',
-  a: 'Die Abstimmung läuft bis zum 14.11.2026. Danach werden die Stimmen ausgezählt.'
+  a: 'Die Abstimmung läuft ab sofort bis zum 14.11.2026. Danach werden die Stimmen ausgezählt.'
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
   a: 'Die drei Bilder mit den meisten Stimmen zum Ende der Abstimmung gewinnen. Die Familien werden über die beim Upload angegebenen Kontaktdaten benachrichtigt.'

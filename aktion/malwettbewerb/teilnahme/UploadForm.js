@@ -310,7 +310,7 @@ function UploadForm() {
     style: {
       color: 'var(--text-strong)'
     }
-  }, v.child), " ist bei uns eingegangen. Die Abstimmung über die Bilder läuft vom 01.11. bis 14.11.2026 – nach Ende der Abstimmung benachrichtigen wir die Gewinner \xFCber Ihre angegebenen Kontaktdaten. Wir dr\xFCcken die Daumen!"), /*#__PURE__*/React.createElement("div", {
+  }, v.child), " ist bei uns eingegangen. Die Abstimmung über die Bilder läuft ab sofort bis zum 14.11.2026 – nach Ende der Abstimmung benachrichtigen wir die Gewinner \xFCber Ihre angegebenen Kontaktdaten. Wir dr\xFCcken die Daumen!"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 22
     }

@@ -112,7 +112,7 @@ const FAQS = [{
   a: 'Bäucke-Warengutscheine im Wert von 250 €, 150 € und 50 €. Die Gutscheine sind nicht in bar auszahlbar.'
 }, {
   q: 'Wie werden die Gewinner:innen ermittelt?',
-  a: 'Nach dem Einsendeschluss werden alle freigegebenen Bilder unter baeucke-moebel.de/aktion/malwettbewerb/abstimmen veröffentlicht. Dort kann bis zum 14.11.2026 abgestimmt werden. Die drei Bilder mit den meisten Stimmen gewinnen.'
+  a: 'Alle freigegebenen Bilder werden unter baeucke-moebel.de/aktion/malwettbewerb/abstimmen veröffentlicht. Dort kann ab sofort bis zum 14.11.2026 abgestimmt werden. Die drei Bilder mit den meisten Stimmen gewinnen.'
 }, {
   q: 'Wie werden die Gewinner benachrichtigt?',
   a: 'Die Gewinner werden nach dem Einsendeschluss per E-Mail oder Telefon über die angegebenen Kontaktdaten informiert.'
