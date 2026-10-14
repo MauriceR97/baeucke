@@ -138,7 +138,18 @@ function UploadForm() {
     } // Prototyp-Modus
     setSending(true);
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
+      let token = '';
+      try {
+        token = await window.turnstileToken();
+      } catch (err) {
+        setSending(false);
+        setErrors(e => ({
+          ...e,
+          file: 'Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.'
+        }));
+        return;
+      }
       fetch(SHEET_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
@@ -147,6 +158,7 @@ function UploadForm() {
         },
         body: JSON.stringify({
           typ: 'einsendung',
+          turnstile: token,
           kindVorname: v.child,
           elternName: v.parent,
           email: v.email,

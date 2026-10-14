@@ -6,6 +6,25 @@
 <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="814c3e68-4376-41fa-aac8-fcf731b7dfed" data-blockingmode="auto" type="text/javascript"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer data-cookieconsent="ignore"></script>
+<script data-cookieconsent="ignore">
+/* Cloudflare Turnstile – Spam-Schutz. Site Key aus dem Cloudflare-Dashboard eintragen. */
+window.TURNSTILE_SITEKEY = '';
+window.turnstileToken = function () {
+  return new Promise(function (ok, fehler) {
+    if (!window.TURNSTILE_SITEKEY) { ok(''); return; }
+    function los() {
+      var box = document.getElementById('ts-box');
+      if (!box) { box = document.createElement('div'); box.id = 'ts-box'; box.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:100000'; document.body.appendChild(box); }
+      if (window.__tsId != null) { try { turnstile.remove(window.__tsId); } catch (e) {} }
+      window.__tsId = turnstile.render(box, { sitekey: window.TURNSTILE_SITEKEY, appearance: 'interaction-only', language: 'de',
+        callback: function (t) { ok(t); }, 'error-callback': function () { fehler(new Error('turnstile')); } });
+    }
+    if (window.turnstile) return los();
+    var n = 0, iv = setInterval(function () { if (window.turnstile) { clearInterval(iv); los(); } else if (++n > 150) { clearInterval(iv); fehler(new Error('timeout')); } }, 100);
+  });
+};
+</script>
 <title>Jetzt abstimmen — Malwettbewerb Interliving Bäucke</title>
 <link rel="stylesheet" href="../../../styles.css">
 <style>

@@ -50,11 +50,18 @@ function useVoting() {
     if (!meineStimme) setAnfrageFuer(id);
   };
   const abbrechen = () => setAnfrageFuer(null);
-  const bestaetigen = daten => {
+  const bestaetigen = async daten => {
     const id = anfrageFuer;
     if (!id) return;
     if (VOTE_ENDPOINT) {
       const bild = eintraege.find(e => e.id === id) || {};
+      let token = '';
+      try {
+        token = await window.turnstileToken();
+      } catch (err) {
+        window.alert('Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.');
+        return;
+      }
       fetch(VOTE_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
@@ -63,6 +70,7 @@ function useVoting() {
         },
         body: JSON.stringify({
           typ: 'stimme',
+          turnstile: token,
           ...daten,
           bildId: id,
           bildVorname: bild.vorname || ''
