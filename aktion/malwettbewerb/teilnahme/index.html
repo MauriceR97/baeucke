@@ -7,7 +7,7 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer data-cookieconsent="ignore"></script>
 <script data-cookieconsent="ignore">
 /* Cloudflare Turnstile – Spam-Schutz. Site Key aus dem Cloudflare-Dashboard eintragen. */
-window.TURNSTILE_SITEKEY = '0x4AAAAAAFWcRiYuUjhZuLGZ';
+window.TURNSTILE_SITEKEY = '';
 window.turnstileToken = function () {
   return new Promise(function (ok, fehler) {
     if (!window.TURNSTILE_SITEKEY) { ok(''); return; }
@@ -89,6 +89,34 @@ window.turnstileToken = function () {
 <script src="UploadForm.js"></script>
 
 <script defer>
+const ABSTIMM_URL = 'https://www.baeucke-moebel.de/aktion/malwettbewerb/abstimmen/';
+function BeendetBanner() {
+  const { Ico } = window;
+  return React.createElement("div", {
+    role: "status",
+    style: { position: 'relative', zIndex: 60, background: 'var(--neutral-800)', color: '#fff', boxShadow: 'var(--shadow-md)' }
+  }, React.createElement("div", {
+    style: { maxWidth: 'var(--container-max)', margin: '0 auto', padding: '12px var(--gutter)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px 20px', flexWrap: 'wrap', textAlign: 'center' }
+  }, React.createElement("span", { style: { fontWeight: 700, fontSize: 'var(--text-md)' } },
+    "Die Einsendephase ist beendet – vielen Dank für alle Kunstwerke! Jetzt bis zum 14.11.2026 abstimmen."),
+  React.createElement("a", {
+    href: ABSTIMM_URL,
+    style: { display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--baeucke-yellow)', color: 'var(--neutral-800)', fontWeight: 800, fontSize: 'var(--text-sm)', padding: '9px 18px', borderRadius: 'var(--radius-pill)', textDecoration: 'none', whiteSpace: 'nowrap' }
+  }, "Hier klicken & abstimmen", Ico ? React.createElement(Ico, { name: "arrow-right", size: 16, color: "var(--neutral-800)" }) : " →")));
+}
+function BeendetSektion() {
+  const { Button } = window.DesignSystem_9f5cef;
+  return React.createElement("section", {
+    id: "upload",
+    style: { background: 'var(--yellow-50)' }
+  }, React.createElement("div", {
+    style: { maxWidth: 760, margin: '0 auto', padding: 'var(--section-y) var(--gutter)', textAlign: 'center' }
+  }, React.createElement("span", { className: "eyebrow" }, "Einsendeschluss war der 31.10.2026"),
+  React.createElement("h2", { style: { margin: '10px 0 12px' } }, "Die Einsendephase ist beendet"),
+  React.createElement("p", { style: { margin: '0 auto 28px', maxWidth: 560, color: 'var(--text-body)', fontSize: 'var(--text-lg)', textWrap: 'pretty' } },
+    "Vielen Dank an alle Familien für die vielen bunten Kunstwerke! Neue Bilder können nicht mehr eingereicht werden. Stimmen Sie jetzt bis zum 14.11.2026 für Ihr Lieblingsbild ab – unter allen Abstimmenden verlosen wir zusätzlich einen 100-€-Gutschein."),
+  React.createElement(Button, { variant: "primary", size: "lg", onClick: () => { window.location.href = ABSTIMM_URL; } }, "Jetzt abstimmen")));
+}
 function App() {
   const {
     Header,
@@ -103,7 +131,7 @@ function App() {
     Footer,
     UploadForm
   } = window;
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Countdown, null), /*#__PURE__*/React.createElement(Prizes, null), /*#__PURE__*/React.createElement(Steps, null), /*#__PURE__*/React.createElement(Download, null), /*#__PURE__*/React.createElement(Reviews, null), /*#__PURE__*/React.createElement(UploadForm, null), /*#__PURE__*/React.createElement(StoreInfo, null), /*#__PURE__*/React.createElement(FAQ, null)), /*#__PURE__*/React.createElement(Footer, null));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(BeendetBanner, null), /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(Hero, null), /*#__PURE__*/React.createElement(Prizes, null), /*#__PURE__*/React.createElement(Steps, null), /*#__PURE__*/React.createElement(Download, null), /*#__PURE__*/React.createElement(Reviews, null), /*#__PURE__*/React.createElement(BeendetSektion, null), /*#__PURE__*/React.createElement(StoreInfo, null), /*#__PURE__*/React.createElement(FAQ, null)), /*#__PURE__*/React.createElement(Footer, null));
 }
 function mount() {
   if (!window.Header || !window.UploadForm || !window.Footer) {
