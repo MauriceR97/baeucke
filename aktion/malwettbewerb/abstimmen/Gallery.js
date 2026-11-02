@@ -83,13 +83,14 @@ function useVoting() {
     setMeineStimme(id);
     setAnfrageFuer(null);
     window.dispatchEvent(new Event('baeucke-vote'));
+    if (VOTE_ENDPOINT) setTimeout(() => window.alert('Fast geschafft! Wir haben Ihnen eine E-Mail geschickt. Bitte klicken Sie auf den Bestätigungslink – erst dann wird Ihre Stimme gezählt. (Bitte auch den Spam-Ordner prüfen.)'), 50);
   };
 
-  // Stand aus der Tabelle + die eigene, noch nicht übertragene Stimme
+  // Stand aus der Tabelle (nur bestätigte Stimmen)
   const rangliste = React.useMemo(() => {
     return eintraege.map(e => ({
       ...e,
-      gesamt: (e.stimmen || 0) + (meineStimme === e.id ? 1 : 0)
+      gesamt: e.stimmen || 0
     })).sort((a, b) => b.gesamt - a.gesamt || String(a.vorname).localeCompare(String(b.vorname)));
   }, [meineStimme, eintraege]);
   return {
@@ -452,7 +453,7 @@ function VoteModal({
     style: {
       color: 'var(--text-strong)'
     }
-  }, "Gewinnspiel:"), " Mit deiner Stimme nimmst du an der Verlosung eines 100 \u20AC Gutscheins teil \u2013 und erh\xE4ltst nach dem Absenden eine kleine \xDCberraschung von uns. \uD83C\uDF81")), /*#__PURE__*/React.createElement("div", {
+  }, "Gewinnspiel:"), " Nach dem Absenden erhalten Sie eine E-Mail \u2013 erst nach Klick auf den Best\xE4tigungslink z\xE4hlt Ihre Stimme. Mit deiner Stimme nimmst du an der Verlosung eines 100 \u20AC Gutscheins teil \u2013 und erh\xE4ltst nach dem Absenden eine kleine \xDCberraschung von uns. \uD83C\uDF81")), /*#__PURE__*/React.createElement("div", {
     className: "f-row",
     style: {
       display: 'grid',
@@ -806,7 +807,7 @@ function Lightbox({
       fontWeight: 700,
       color: 'var(--text-strong)'
     }
-  }, "Sie haben f\xFCr dieses Bild abgestimmt \u2013 vielen Dank!")) : meineStimme ? /*#__PURE__*/React.createElement("div", {
+  }, "Fast geschafft \u2013 bitte best\xE4tigen Sie Ihre Stimme \xFCber den Link in Ihrer E-Mail.")) : meineStimme ? /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -946,7 +947,7 @@ function Gallery() {
       color: 'var(--text-muted)',
       margin: 0
     }
-  }, meineStimme ? (rangliste.length >= 3 ? 'Vielen Dank – Ihre Stimme ist gespeichert. Aktuell führen diese drei Bilder.' : 'Vielen Dank – Ihre Stimme ist gespeichert.') : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
+  }, meineStimme ? (rangliste.length >= 3 ? 'Fast geschafft – bitte bestätigen Sie Ihre Stimme über den Link in Ihrer E-Mail. Erst dann wird sie gezählt. Aktuell führen diese drei Bilder.' : 'Fast geschafft – bitte bestätigen Sie Ihre Stimme über den Link in Ihrer E-Mail. Erst dann wird sie gezählt.') : 'Aktuell führen diese drei Bilder. Klicken Sie auf ein Bild, um es größer zu sehen.'), ladeStatus === 'fehler' && /*#__PURE__*/React.createElement("p", {
     style: {
       display: 'inline-flex',
       alignItems: 'center',
