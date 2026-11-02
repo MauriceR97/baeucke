@@ -59,23 +59,46 @@ function useVoting() {
       try {
         token = await window.turnstileToken();
       } catch (err) {
-        zeigeHinweis({ art: 'fehler', titel: 'Das hat leider nicht geklappt', text: 'Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.' });
+        zeigeHinweis({ art: 'fehler', titel: 'Das hat leider nicht geklappt', text: 'Die Sicherheitsprüfung konnte nicht geladen werden. Bitte erlauben Sie im Cookie-Banner die notwendigen Dienste, laden Sie die Seite neu und versuchen Sie es erneut.' });
         return;
       }
-      fetch(VOTE_ENDPOINT, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
-        body: JSON.stringify({
-          typ: 'stimme',
-          turnstile: token,
-          ...daten,
-          bildId: id,
-          bildVorname: bild.vorname || ''
-        })
-      }).catch(function () {});
+      let res = null;
+      try {
+        const r = await fetch(VOTE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ typ: 'stimme', turnstile: token, ...daten, bildId: id, bildVorname: bild.vorname || '' })
+        });
+        res = await r.json();
+      } catch (err) {
+        res = null;
+      }
+      if (!res) {
+        zeigeHinweis({ art: 'fehler', titel: 'Verbindung fehlgeschlagen', text: 'Ihre Stimme konnte gerade nicht übertragen werden. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es in einem Moment erneut.' });
+        return;
+      }
+      if (!res.ok) {
+        const G = {
+          bereits_abgestimmt: ['Sie haben bereits abgestimmt', 'Mit dieser E-Mail-Adresse oder Telefonnummer wurde schon eine Stimme abgegeben. Pro Person zählt eine Stimme.'],
+          bestaetigung_bereits_gesendet: ['Bitte prüfen Sie Ihr Postfach', 'Für diese E-Mail-Adresse haben wir Ihnen bereits einen Bestätigungslink geschickt. Bitte klicken Sie darauf – schauen Sie auch im Spam-Ordner nach.'],
+          sicherheitspruefung: ['Sicherheitsprüfung fehlgeschlagen', 'Bitte laden Sie die Seite neu und versuchen Sie es erneut.'],
+          zu_viele_anfragen: ['Gerade ist viel los', 'Bitte versuchen Sie es in ein paar Minuten erneut.'],
+          ungueltige_email: ['E-Mail-Adresse prüfen', 'Bitte geben Sie eine gültige E-Mail-Adresse an.'],
+          ungueltiger_name: ['Name prüfen', 'Bitte geben Sie Ihren echten Vor- und Nachnamen an.'],
+          ungueltige_telefonnummer: ['Telefonnummer prüfen', 'Bitte geben Sie eine gültige Telefonnummer an.'],
+          ungueltige_plz: ['Postleitzahl prüfen', 'Bitte geben Sie eine fünfstellige Postleitzahl an.'],
+          datenschutz: ['Datenschutz bestätigen', 'Bitte stimmen Sie der Datenschutzerklärung zu.'],
+          bild_nicht_abstimmbar: ['Bild nicht verfügbar', 'Für dieses Bild kann gerade nicht abgestimmt werden. Bitte laden Sie die Seite neu.'],
+          pausiert: ['Abstimmung pausiert', 'Die Abstimmung ist gerade pausiert. Bitte versuchen Sie es später erneut.'],
+          mail_fehler: ['E-Mail konnte nicht gesendet werden', 'Bitte versuchen Sie es in ein paar Minuten erneut.']
+        };
+        const t = G[res.grund] || ['Das hat leider nicht geklappt', 'Bitte versuchen Sie es erneut.' + (res.grund || res.fehler ? ' (Code: ' + (res.grund || 'fehler') + ')' : '')];
+        console.warn('Abstimmung abgelehnt:', res);
+        zeigeHinweis({ art: 'fehler', titel: t[0], text: t[1] });
+        if (res.grund !== 'bereits_abgestimmt' && res.grund !== 'bestaetigung_bereits_gesendet') return;
+        setAnfrageFuer(null);
+        return;
+      }
     }
     try {
       localStorage.setItem(VOTE_KEY, id);
@@ -325,6 +348,7 @@ function VoteModal({
   const [ok, setOk] = React.useState(false);
   const [werbung, setWerbung] = React.useState(false);
   const [errors, setErrors] = React.useState({});
+  const [sendet, setSendet] = React.useState(false);
   const set = k => e => setV(s => ({
     ...s,
     [k]: e.target.value
@@ -339,11 +363,14 @@ function VoteModal({
     if (!/^\d{5}$/.test(v.plz.trim())) err.plz = 'Bitte geben Sie eine 5-stellige PLZ an.';
     if (!ok) err.ok = 'Bitte bestätigen Sie die Datenschutzerklärung.';
     setErrors(err);
-    if (Object.keys(err).length === 0) onBestaetigen({
-      ...v,
-      datenschutz: ok,
-      werbung
-    });
+    if (Object.keys(err).length === 0 && !sendet) {
+      setSendet(true);
+      Promise.resolve(onBestaetigen({
+        ...v,
+        datenschutz: ok,
+        werbung
+      })).finally(() => setSendet(false));
+    }
   };
   return /*#__PURE__*/React.createElement("div", {
     onClick: onClose,
@@ -648,11 +675,12 @@ function VoteModal({
     size: "lg",
     type: "submit",
     fullWidth: true,
+    disabled: sendet,
     iconLeft: /*#__PURE__*/React.createElement(Ico, {
       name: "Heart",
       size: 18
     })
-  }, "Stimme abgeben"), /*#__PURE__*/React.createElement("p", {
+  }, sendet ? "Wird gesendet …" : "Stimme abgeben"), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: 0,
       fontSize: 'var(--text-xs)',
