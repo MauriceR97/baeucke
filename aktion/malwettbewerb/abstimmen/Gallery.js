@@ -59,7 +59,7 @@ function useVoting() {
       try {
         token = await window.turnstileToken();
       } catch (err) {
-        window.alert('Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.');
+        zeigeHinweis({ art: 'fehler', titel: 'Das hat leider nicht geklappt', text: 'Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut.' });
         return;
       }
       fetch(VOTE_ENDPOINT, {
@@ -83,7 +83,7 @@ function useVoting() {
     setMeineStimme(id);
     setAnfrageFuer(null);
     window.dispatchEvent(new Event('baeucke-vote'));
-    if (VOTE_ENDPOINT) setTimeout(() => window.alert('Fast geschafft! Wir haben Ihnen eine E-Mail geschickt. Bitte klicken Sie auf den Bestätigungslink – erst dann wird Ihre Stimme gezählt. (Bitte auch den Spam-Ordner prüfen.)'), 50);
+    if (VOTE_ENDPOINT) zeigeHinweis({ art: 'mail', titel: 'Fast geschafft!', text: 'Wir haben Ihnen eine E-Mail geschickt. Bitte klicken Sie auf den Bestätigungslink – erst dann wird Ihre Stimme gezählt und Sie nehmen an der Verlosung des 100-€-Gutscheins teil.', klein: 'Keine E-Mail erhalten? Bitte prüfen Sie auch Ihren Spam-Ordner.' });
   };
 
   // Stand aus der Tabelle (nur bestätigte Stimmen)
@@ -875,6 +875,41 @@ function Lightbox({
   }, kopiert ? 'Link kopiert' : 'Link kopieren'))))));
 }
 
+function zeigeHinweis(h) {
+  window.dispatchEvent(new CustomEvent('baeucke-hinweis', { detail: h }));
+}
+
+/* Eigenes Hinweis-Fenster statt Browser-Popup */
+function HinweisDialog({ h, onClose }) {
+  const { Ico } = window;
+  const { Button } = window.DesignSystem_9f5cef;
+  React.useEffect(() => {
+    const esc = ev => { if (ev.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
+  }, []);
+  const fehler = h.art === 'fehler';
+  return React.createElement("div", {
+    role: "dialog", "aria-modal": "true", "aria-labelledby": "hinweis-titel",
+    onClick: onClose,
+    style: { position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(30,30,30,.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }
+  }, React.createElement("div", {
+    onClick: ev => ev.stopPropagation(),
+    style: { position: 'relative', width: '100%', maxWidth: 460, background: 'var(--surface-card)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-lg)', overflow: 'hidden', textAlign: 'center' }
+  }, React.createElement("div", { style: { height: 8, background: fehler ? 'var(--baeucke-red)' : 'var(--baeucke-yellow)' } }),
+  React.createElement("button", {
+    type: "button", "aria-label": "Schließen", onClick: onClose,
+    style: { position: 'absolute', top: 18, right: 14, width: 40, height: 40, border: 'none', background: 'transparent', cursor: 'pointer', borderRadius: 'var(--radius-pill)', display: 'flex', alignItems: 'center', justifyContent: 'center' }
+  }, React.createElement(Ico, { name: "X", size: 22, color: "var(--neutral-600)" })),
+  React.createElement("div", { style: { padding: '36px 32px 32px' } },
+    React.createElement("div", { style: { width: 72, height: 72, margin: '0 auto 18px', borderRadius: 'var(--radius-pill)', background: fehler ? 'var(--neutral-100)' : 'var(--yellow-50)', border: '2px solid ' + (fehler ? 'var(--neutral-200)' : 'var(--yellow-200)'), display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+      React.createElement(Ico, { name: fehler ? "CircleAlert" : "MailCheck", size: 34, color: "var(--neutral-800)" })),
+    React.createElement("h3", { id: "hinweis-titel", style: { margin: '0 0 10px', fontSize: 'var(--text-h3)', fontWeight: 900, color: 'var(--text-strong)' } }, h.titel),
+    React.createElement("p", { style: { margin: '0 0 ' + (h.klein ? '12px' : '26px'), fontSize: 'var(--text-md)', lineHeight: 1.55, color: 'var(--text-body)', textWrap: 'pretty' } }, h.text),
+    h.klein && React.createElement("p", { style: { margin: '0 0 26px', fontSize: 'var(--text-sm)', color: 'var(--text-muted)' } }, h.klein),
+    React.createElement(Button, { variant: "primary", size: "lg", onClick: onClose }, "Alles klar"))));
+}
+
 /* Alle Bilder – die drei Führenden stehen größer an erster Stelle */
 function Gallery() {
   const {
@@ -890,6 +925,12 @@ function Gallery() {
     ladeStatus
   } = window.__voting;
   const [lightbox, setLightbox] = React.useState(null);
+  const [hinweis, setHinweis] = React.useState(null);
+  React.useEffect(() => {
+    const f = ev => setHinweis(ev.detail);
+    window.addEventListener('baeucke-hinweis', f);
+    return () => window.removeEventListener('baeucke-hinweis', f);
+  }, []);
   const [anzahl, setAnzahl] = React.useState(12);
   const top3 = rangliste.slice(0, 3);
   const rest = rangliste.slice(3);
@@ -1062,7 +1103,7 @@ function Gallery() {
     variant: "outline",
     size: "lg",
     onClick: () => setAnzahl(n => n + 12)
-  }, "Weitere Bilder anzeigen (", rest.length - anzahl, ")"))), lightbox && /*#__PURE__*/React.createElement(Lightbox, {
+  }, "Weitere Bilder anzeigen (", rest.length - anzahl, ")"))), hinweis && React.createElement(HinweisDialog, { h: hinweis, onClose: () => setHinweis(null) }), lightbox && /*#__PURE__*/React.createElement(Lightbox, {
     e: lightbox,
     onClose: () => setLightbox(null),
     meineStimme: meineStimme,
@@ -1073,7 +1114,7 @@ function Gallery() {
     onBestaetigen: bestaetigen
   }));
 }
-Object.assign(window, {
+Object.assign(window, { zeigeHinweis, 
   useVoting,
   ArtCard,
   VoteModal,
